@@ -2,6 +2,8 @@
 python Library for making parametric Spool terrain.
 
 
+![Spool Mockup](./documentation/image/01.png)
+
 
 ### Example Usage
 
