@@ -1,0 +1,77 @@
+import cadquery as cq
+from . import Base
+
+class Spool(Base):
+    def __init__(self):
+        super().__init__()
+        #parameters
+        self.height = 60
+        self.radius = 80
+        self.cut_radius = 30
+        self.wall_width = 3
+        self.internal_wall_width = 3
+        self.internal_z_translate = 0
+        
+        #shapes
+        self.outline = None
+        self.cut_hole = None
+        self.cut_wall = None
+        
+    def __make_outline(self):
+        self.outline = (
+            cq.Workplane("XY")
+            .cylinder(
+                self.height,
+                self.radius
+            )
+        )
+        
+    def __make_cut_hole(self):
+        self.cut_hole = (
+            cq.Workplane("XY")
+            .cylinder(
+                self.height,
+                self.cut_radius
+            )
+        )
+        
+    def __make_cut_wall(self):
+        internal_cut = (
+            cq.Workplane("XY")
+            .cylinder(
+                self.height-self.wall_width*2,
+                self.cut_radius+(self.internal_wall_width)
+            )
+        )
+        
+        self.cut_wall = (
+            cq.Workplane("XY")
+            .cylinder(
+                self.height-self.wall_width*2,
+                self.radius
+            )
+        )
+        
+        self.cut_wall = self.cut_wall.cut(internal_cut)
+        
+    def make(self):
+        super().make()
+        self.__make_outline()
+        self.__make_cut_hole()
+        self.__make_cut_wall()
+        
+    def build(self):
+        super().build()
+        scene = (
+            cq.Workplane("XY")
+            .union(self.outline)
+            .cut(self.cut_hole)
+            .cut(self.cut_wall)
+            .cut(self.cut_wall.translate((
+                0,
+                0,
+                self.internal_z_translate
+            )))
+            
+        )
+        return scene
