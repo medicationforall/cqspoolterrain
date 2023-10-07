@@ -2,15 +2,23 @@ import cadquery as cq
 from . import Base
 
 class Spool(Base):
-    def __init__(self):
+    def __init__(
+            self,
+            height = 60,
+            radius = 80,
+            cut_radius = 30,
+            wall_width = 3,
+            internal_wall_width = 3,
+            internal_z_translate = 0
+        ):
         super().__init__()
         #parameters
-        self.height = 60
-        self.radius = 80
-        self.cut_radius = 30
-        self.wall_width = 3
-        self.internal_wall_width = 3
-        self.internal_z_translate = 0
+        self.height = height
+        self.radius = radius
+        self.cut_radius = cut_radius
+        self.wall_width = wall_width
+        self.internal_wall_width = internal_wall_width
+        self.internal_z_translate = internal_z_translate
         
         #shapes
         self.outline = None
@@ -54,8 +62,8 @@ class Spool(Base):
         
         self.cut_wall = self.cut_wall.cut(internal_cut)
         
-    def make(self):
-        super().make()
+    def make(self, parent=None):
+        super().make(parent)
         self.__make_outline()
         self.__make_cut_hole()
         self.__make_cut_wall()

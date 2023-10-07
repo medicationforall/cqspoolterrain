@@ -2,13 +2,19 @@ import cadquery as cq
 from . import Base
 
 class Cradle(Base):
-    def __init__(self):
+    def __init__(
+            self, 
+            length = 150,
+            width = 75,
+            height = 60,
+            angle = 45
+        ):
         super().__init__()
         #parameters
-        self.length = 150
-        self.width = 75
-        self.height = 60
-        self.angle = 45
+        self.length = length
+        self.width = width
+        self.height = height
+        self.angle = angle
         
         #shapes
         self.cradle = None
@@ -32,8 +38,8 @@ class Cradle(Base):
         self.cradle = result2
         
         
-    def make(self):
-        super().make()
+    def make(self, parent=None):
+        super().make(parent)
         self.__make_cradle()
         
     def build(self):
