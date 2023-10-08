@@ -1,7 +1,6 @@
 import cadquery as cq
-from cqspoolterrain import Spool, Cradle, Base, StairLift, ControlPlatform
-from cqindustry import Walkway, Platform
-from cadqueryhelper import shape
+from . import Spool, Cradle, Base, StairLift, ControlPlatform, SpoolCladding 
+from cqindustry import Walkway
 
 class PowerStation(Base):
     def __init__(self):
@@ -22,9 +21,8 @@ class PowerStation(Base):
         self.p_control = {}
         self.p_control['render_stripes'] = True
         self.p_control['render_floor'] = True
-        
-        # not used
-        self.p_walkway = {}
+
+        self.p_cladding = {}
         
         # blueprints
         self.bp_spool = Spool(**self.p_spool)
@@ -32,6 +30,9 @@ class PowerStation(Base):
         self.bp_walk = Walkway()
         self.bp_stairs = StairLift(**self.p_stairs)
         self.bp_control = ControlPlatform(**self.p_control)
+
+        # looks like my import got borked - @todo fix this
+        self.bp_cladding = SpoolCladding.SpoolCladding(**self.p_cladding)
         
     def make(self, parent = None):
         super().make(parent)
@@ -40,6 +41,7 @@ class PowerStation(Base):
         self.bp_walk.make()
         self.bp_stairs.make(self)
         self.bp_control.make(self)
+        self.bp_cladding.make(self.bp_spool)
         
     def build(self):
         super().build()
@@ -53,7 +55,12 @@ class PowerStation(Base):
         walkway = self.bp_walk.build().rotate((0,0,1),(0,0,0), 90)
         stairs = self.bp_stairs.build()
         controlPlatform = self.bp_control.build()
-        
+        cladding = (
+            self.bp_cladding.build()
+            .rotate((1,0,0),(0,0,0),90)
+            .translate((0,0,self.bp_spool.radius))
+        )
+                    
         #----- Build the building
         walk_z_translate = (self.bp_walk.height /2)+self.bp_cradle.height +10
         building = (
@@ -63,6 +70,7 @@ class PowerStation(Base):
             .add(walkway.translate((0,0,walk_z_translate)))
             .add(stairs.translate((0,-75,self.bp_stairs.height/2)))
             .add(controlPlatform.translate((0,75,self.bp_control.height/2)))
+            .add(cladding.translate((0,0,2)))
         )
         
         #mini = cq.Workplane("XY").cylinder(32, 12.5).translate((0,-135,17))

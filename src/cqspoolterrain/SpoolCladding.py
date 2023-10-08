@@ -1,22 +1,29 @@
 import cadquery as cq
-from cqspoolterrain import Spool, Base
-from cadqueryhelper import shape
-
+from cqspoolterrain import Base
 
 class SpoolCladding(Base):
-    def __init__(self):
+    def __init__(
+            self,
+            start_angle = 0,
+            end_angle = 360,
+            rotate_solid = True,
+            count = 17,
+            clad_length = 5,
+            clad_width = 33,
+            clad_inset = 5
+        ):
         super().__init__()
         
         #arc parameters
-        self.start_angle = 0
-        self.end_angle = 360
-        self.rotate_solid = True
-        self.count = 17
+        self.start_angle = start_angle
+        self.end_angle = end_angle
+        self.rotate_solid = rotate_solid
+        self.count = count
         
         #clad
-        self.clad_length = 5
-        self.clad_width = 33
-        self.clad_inset = 5
+        self.clad_length = clad_length
+        self.clad_width = clad_width
+        self.clad_inset = clad_inset
         
         # parts 
         self.cladding = None
