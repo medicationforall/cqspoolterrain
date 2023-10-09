@@ -22,7 +22,7 @@ class PowerStation(Base):
         self.p_control['render_stripes'] = True
         self.p_control['render_floor'] = True
 
-        self.p_cladding = {}
+        #self.p_cladding = {}
         
         # blueprints
         self.bp_spool = Spool(**self.p_spool)
@@ -30,9 +30,7 @@ class PowerStation(Base):
         self.bp_walk = Walkway()
         self.bp_stairs = StairLift(**self.p_stairs)
         self.bp_control = ControlPlatform(**self.p_control)
-
-        # looks like my import got borked - @todo fix this
-        self.bp_cladding = SpoolCladding.SpoolCladding(**self.p_cladding)
+        self.bp_cladding = SpoolCladding()#(**self.p_cladding)
         
     def make(self, parent = None):
         super().make(parent)

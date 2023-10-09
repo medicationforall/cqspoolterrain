@@ -8,8 +8,8 @@ class SpoolCladding(Base):
             end_angle = 360,
             rotate_solid = True,
             count = 17,
-            clad_length = 5,
             clad_width = 33,
+            clad_height = 5,
             clad_inset = 5
         ):
         super().__init__()
@@ -21,7 +21,7 @@ class SpoolCladding(Base):
         self.count = count
         
         #clad
-        self.clad_length = clad_length
+        self.clad_height = clad_height
         self.clad_width = clad_width
         self.clad_inset = clad_inset
         
@@ -29,12 +29,13 @@ class SpoolCladding(Base):
         self.cladding = None
         
     def _make_clad(self, loc):
-        length = self.clad_length
+        length = self.parent.height - self.parent.wall_width*2
         width = self.clad_width
-        height = self.parent.height - self.parent.wall_width*2
+        height = self.clad_height
         clad = (
             cq.Workplane("XY").box(length,width,height)
-            .translate((-1*(length/2)-self.clad_inset,0,0))
+            .rotate((0,1,0),(0,0,0), 90)
+            .translate((-1*(height/2)-self.clad_inset,0,0))
         )
         return clad.val().located(loc)
     
