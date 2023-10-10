@@ -1,6 +1,10 @@
 # CQSpoolTerrain changelog
 
 ## Main wip
+## 0.0.5
+* Added ladders to the powerStation
+* Added render flags
+
 ## 0.0.4
 * Made SpoolCladdingGreebled class
 * Made SpoolCladdingGreebledUnique class
