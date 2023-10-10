@@ -37,6 +37,7 @@ class PowerStation(Base):
         self.bp_spool = Spool(**self.p_spool)
         self.bp_cradle = Cradle(**self.p_cradle)
         self.bp_walk = Walkway()
+
         self.bp_stairs = StairLift(**self.p_stairs)
         self.bp_control = ControlPlatform(**self.p_control)
         self.bp_cladding = SpoolCladding()#(**self.p_cladding)
