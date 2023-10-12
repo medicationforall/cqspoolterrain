@@ -6,5 +6,6 @@ from .ControlPlatform import ControlPlatform
 from .SpoolCladding import SpoolCladding
 from .SpoolCladdingGreebled import SpoolCladdingGreebled
 from .SpoolCladdingGreebledUnique import SpoolCladdingGreebledUnique
+from .powerLine import (power_line_straight)
 
 from .PowerStation import PowerStation

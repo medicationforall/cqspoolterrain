@@ -1,7 +1,7 @@
 import cadquery as cq
 import math
-from . import Spool, Base, SpoolCladding
-from cadqueryhelper import shape, irregular_grid
+from . import SpoolCladding
+from cadqueryhelper import irregular_grid
 
 class SpoolCladdingGreebledUnique(SpoolCladding):
     def __init__(self):

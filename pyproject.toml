@@ -19,7 +19,8 @@ classifiers = [
 ]
 
 dependencies = [
-'cqterrain @ git+https://github.com/medicationforall/cqterrain@0.1.8'
+'cqterrain @ git+https://github.com/medicationforall/cqterrain@0.1.8',
+'cqindustry @ git+https://github.com/medicationforall/cqindustry@0.0.7'
 ]
 
 

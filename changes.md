@@ -5,6 +5,9 @@
 * Added ladders to the powerStation.
 * Added render flags.
 * Added StairLift tiles.
+* Updated dependencies requires cqindustry 0.0.7
+* Added initial powerLine code. 
+* Added powerline straight example.
 
 ## 0.0.4
 * Made SpoolCladdingGreebled class.

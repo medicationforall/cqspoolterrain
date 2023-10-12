@@ -1,5 +1,5 @@
 import cadquery as cq
-from cqspoolterrain import Base
+from . import Base
 
 class SpoolCladding(Base):
     def __init__(
