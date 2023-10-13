@@ -8,6 +8,7 @@
 * Updated dependencies requires cqindustry 0.0.7
 * Added initial powerLine code. 
 * Added powerline straight example.
+* Added curved power lines and example.
 
 ## 0.0.4
 * Made SpoolCladdingGreebled class.
