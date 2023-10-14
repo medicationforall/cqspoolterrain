@@ -9,6 +9,7 @@
 * Added initial powerLine code. 
 * Added powerline straight example.
 * Added curved power lines and example.
+* Added power lines end cap
 
 ## 0.0.4
 * Made SpoolCladdingGreebled class.

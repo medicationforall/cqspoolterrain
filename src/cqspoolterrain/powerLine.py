@@ -198,3 +198,68 @@ def power_line_curve():
     ).rotate((0,1,0),(0,0,0),90).translate((0,0,10/2+6.5))
 
     return curve_power_line, curve_power_line_2
+
+def power_line_end():
+    power_face = make_power_face(face_rotate=0)
+    path = (
+        cq.Workplane("ZY")
+        .ellipseArc(
+            x_radius = 11.51,
+            y_radius = 11.51,
+            angle1 = 90,
+            angle2 = 180
+            #rotation_angle=-30
+        )
+    )
+    
+    curve_shape = (
+        power_face
+        .toPending()
+        .sweep(path)
+        #.rotate((0,1,0),(0,0,0),90)
+        #.translate((x_radius/2,-1*(y_radius/2),0))
+    )
+    
+    cut_cube = cq.Workplane("XY").box(21,24,4).translate((0,0,2))
+    connector = (cq.Workplane("XY").cylinder(2, 11.5))
+    
+    curve_shape = (
+        curve_shape
+        .cut(cut_cube)
+        .union(connector.translate((0,.5,-1)))
+        .union(connector
+             .rotate((1,0,0),(0,0,0),90)
+             .translate((0,-10.51,-12))
+        )
+    ).rotate((0,0,1),(0,0,0),-90).rotate((1,0,0),(0,0,0),180)
+    
+    
+    pip_height = 2.4 
+    pip_radius = 1.56
+    pip = (
+        cq.Workplane("XY")
+        .cylinder(pip_height,pip_radius)
+        .rotate((0,1,0),(0,0,0),0)
+    )
+    
+    y_translate = 10/2 +1.4
+    magnet_cuts = (
+        cq.Workplane("XY")
+        .union(pip.translate((
+            0,
+            y_translate,
+            0
+        )))
+        .union(pip.translate((
+            0,
+            -y_translate,
+            0
+        )))
+    )
+    
+    curve_shape = (
+        curve_shape
+        .cut(magnet_cuts.translate((3.95,0,pip_height/2)))
+        .cut(magnet_cuts.rotate((0,1,0),(0,0,0),90).translate((10.31,0,7.6)))
+    )
+    return curve_shape
