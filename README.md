@@ -1,4 +1,4 @@
-# cqdome
+# cqspoolterrain
 python Library for making parametric Spool terrain.
 
 
