@@ -1,11 +1,3 @@
-from .Base import Base
-from .Spool import Spool
-from .Cradle import Cradle
-from .StairLift import StairLift
-from .ControlPlatform import ControlPlatform
-from .SpoolCladding import SpoolCladding
-from .SpoolCladdingGreebled import SpoolCladdingGreebled
-from .SpoolCladdingGreebledUnique import SpoolCladdingGreebledUnique
 from .powerLine import (
     power_line_straight, 
     power_line_curve, 
@@ -14,5 +6,13 @@ from .powerLine import (
     make_curved_magnets,
     power_line_end
 )
+from .Base import Base
+from .Spool import Spool
+from .Cradle import Cradle
+from .StairLift import StairLift
+from .ControlPlatform import ControlPlatform
+from .SpoolCladding import SpoolCladding
+from .SpoolCladdingGreebled import SpoolCladdingGreebled
+from .SpoolCladdingGreebledUnique import SpoolCladdingGreebledUnique
 
 from .PowerStation import PowerStation
