@@ -39,8 +39,6 @@ class Cradle(Base):
         self.cradle = cradle
         
     def __make_cut_side(self):
-        print('__make_cut_side')
-        
         cut_side = (
             cq.Workplane("XY")
             .sketch()

@@ -9,7 +9,7 @@
 * Added initial powerLine code. 
 * Added powerline straight example.
 * Added curved power lines and example.
-* Added power lines end cap
+* Added power lines end cap* Greebled the StairLift.
 
 ## 0.0.4
 * Made SpoolCladdingGreebled class.

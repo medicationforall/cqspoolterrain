@@ -2,6 +2,7 @@ import cadquery as cq
 import math
 from . import Base
 from cqterrain import tile
+from cadqueryhelper import wave
 
 class StairLift(Base):
     def __init__(
@@ -27,6 +28,10 @@ class StairLift(Base):
         
         self.stair_count = stair_count
         self.stair_chamfer = stair_chamfer
+        self.face_cut_width = 4
+        self.face_cut_padding = 3
+        self.wave_function = wave.square #wave.triangle wave.sine
+        self.wave_segment_length = 5
         
         #parts
         self.stairs = None
@@ -106,11 +111,14 @@ class StairLift(Base):
         )
         
         outline = cq.Workplane("XY").box(
-            x_count*padded_tile_size+padding*1, 
+            x_count*padded_tile_size+padding*1+1, 
             y_count*padded_tile_size+padding*1, 
             self.tile_height
         )
         return floor_tiles, outline
+    
+    def _calculate_panel_height(self):
+        return self.height - self.tile_height - self.face_cut_padding*2
     
     def __make_overlook(self):
         floor_tiles, outline = self._make_floor_tiles(
@@ -125,11 +133,51 @@ class StairLift(Base):
             self.height
         )
         
-        self.overlook = (
+        # --- face cuts
+        panel_y_length = self.length/2 - self.face_cut_padding*2
+        panel_height = self._calculate_panel_height()
+        
+        face_y_cut = cq.Workplane("XY").box(
+            panel_y_length,
+            self.face_cut_width,
+            panel_height
+        )
+        
+        face_x_cut = cq.Workplane("XY").box(
+            self.face_cut_width,
+            self.width/2 - self.face_cut_padding,
+            panel_height
+        )
+        
+        cut_face_y_tranlslate = self.width/4-self.face_cut_width/2
+        cut_face_z_translate = self.tile_height/2
+        
+        side_cut_face_x_translate = self.length/4 - self.face_cut_width/2
+        side_cut_face_y_translate = self.face_cut_padding/2
+        overlook = (
             overlook
             .cut(outline.translate((0,0,self.height/2 - self.tile_height/2)))
             .union(floor_tiles.translate((0,0,self.height/2 - self.tile_height/2)))
+            .cut(face_y_cut.translate((0,-cut_face_y_tranlslate,-cut_face_z_translate)))
+            .cut(face_x_cut.translate((-side_cut_face_x_translate,side_cut_face_y_translate,-cut_face_z_translate)))
         )
+        
+        # --- wave paneling
+        wave_panel_y = self.wave_function(
+            length = panel_y_length,
+            width = self.face_cut_width-1,
+            height = panel_height,
+            segment_length = self.wave_segment_length,
+            inner_width = .5
+        ).rotate((1,0,0),(0,0,0),180)
+        
+        
+        overlook = (
+            overlook
+            .union(wave_panel_y.translate((0,-cut_face_y_tranlslate+1,-cut_face_z_translate)))
+        )
+        
+        self.overlook = overlook
         
     def __make_walkway(self):
         floor_tiles, outline = self._make_floor_tiles(
@@ -143,11 +191,50 @@ class StairLift(Base):
             self.height
         )
         
-        self.walkway = (
+        panel_height = self._calculate_panel_height()
+        
+        face_y_cut = cq.Workplane("XY").box(
+            self.length - self.face_cut_padding*2,
+            self.face_cut_width,
+            panel_height 
+        )
+        
+        face_x_cut = cq.Workplane("XY").box(
+            self.face_cut_width,
+            self.width/2 - self.face_cut_padding,
+            panel_height
+        )
+        
+        face_x_cut_2 = cq.Workplane("XY").box(
+            self.face_cut_width,
+            self.width/2 - self.face_cut_padding*2,
+            self.height - self.tile_height - self.face_cut_padding*2
+        )
+        
+        side_cut_face_x_translate = self.length/2 - self.face_cut_width/2
+        side_cut_face_y_translate = self.face_cut_padding/2
+        
+        walkway = (
             walkway
             .cut(outline.translate((0,0,self.height/2 - self.tile_height/2)))
             .union(floor_tiles.translate((0,0,self.height/2 - self.tile_height/2)))
+            .cut(face_y_cut.translate((0,self.width/4-self.face_cut_width/2,- self.tile_height/2)))
+            .cut(face_x_cut.translate((-side_cut_face_x_translate, -side_cut_face_y_translate,- self.tile_height/2)))
+            .cut(face_x_cut_2.translate((side_cut_face_x_translate, 0,- self.tile_height/2)))
         )
+        
+        # --- wave panels
+        wave_panel_y = self.wave_function(
+            length = self.length - self.face_cut_padding*2,
+            width = self.face_cut_width-1,
+            height = panel_height,
+            segment_length = self.wave_segment_length,
+            inner_width = .5
+        )
+        
+        walkway = walkway.union(wave_panel_y.translate((0,self.width/4-self.face_cut_width/2-1,- self.tile_height/2)))
+        
+        self.walkway = walkway
         
     def make(self, parent=None):
         super().make(parent)
@@ -155,7 +242,6 @@ class StairLift(Base):
         self.__make_overlook()
         self.__make_walkway()
         
-    
     def build(self):
         super().build()
         scene = (
@@ -164,5 +250,24 @@ class StairLift(Base):
             .union(self.overlook.translate((-self.length/4,-self.width/4,0)))
             .union(self.stairs)
         )
-        #return self.stairs
+        
+        panel_height = self._calculate_panel_height()
+        wave_panel_x = self.wave_function(
+            length = self.width - self.face_cut_padding*2,
+            width = self.face_cut_width-1,
+            height = panel_height,
+            segment_length = self.wave_segment_length,
+            inner_width = .5
+        ).rotate((1,0,0),(0,0,0),180).rotate((0,0,1),(0,0,0),90)
+        
+        side_cut_face_x_translate = self.length/2 - self.face_cut_width
+        side_cut_face_y_translate = self.face_cut_padding/2
+        
+        scene = scene.add(wave_panel_x.translate((
+            -side_cut_face_x_translate-1,
+            0,
+            -1*(self.tile_height/2)
+        )))
+        
+        #return self.walkway
         return scene
