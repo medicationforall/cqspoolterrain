@@ -114,3 +114,19 @@ class PowerStation(Base):
             building = building.add(walkway.translate((0,0,walk_z_translate)))
         
         return building
+    
+    def build_cladding(self):
+        building = cq.Workplane("XY")
+        if self.render_cladding:
+            cladding = (
+                self.bp_cladding.build()
+                .rotate((1,0,0),(0,0,0),90)
+                .translate((0,0,self.bp_spool.radius))
+            )
+            building = building.add(cladding.translate((0,0,2)))
+
+        if self.render_cradle:
+            cradle = self.bp_cradle.build()
+            building = building.cut(cradle.translate((0,0,self.bp_cradle.height/2)))
+
+        return building

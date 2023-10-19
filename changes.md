@@ -10,6 +10,7 @@
 * Added powerline straight example.
 * Added curved power lines and example.
 * Added power lines end cap* Greebled the StairLift.
+* PowerStation added Spefic build method for cladding.
 
 ## 0.0.4
 * Made SpoolCladdingGreebled class.

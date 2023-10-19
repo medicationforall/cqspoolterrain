@@ -19,5 +19,8 @@ bp_power.render_ladder = True
 
 bp_power.make()
 power = bp_power.build()
+platform = bp_power.bp_control.build()
+
 #show_object(power)
+cq.exporters.export(platform,f"stl/controlPlatform.stl")
 cq.exporters.export(power,f"stl/powerStation_seed_{bp_power.bp_cladding.seed}.stl")
