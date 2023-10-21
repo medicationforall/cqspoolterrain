@@ -1,31 +1,31 @@
 # cqspoolterrain
-python Library for making parametric Spool terrain.
+python Library for making parametric Spool terrain designed for 3d printing.
 
 
-![Spool Mockup](./documentation/image/01.png)<br />
+![Station Mockup](./documentation/image/36.png)<br />
 
-![Spool Mockup](./documentation/image/02.png)
+![Pipe Mockup](./documentation/image/pipe/15.png)
 
 
 ### Example Usage
 
 ``` python
 import cadquery as cq
-from cqspoolterrain import Spool
+from cqspoolterrain import PowerStation, SpoolCladdingGreebled
 
-bp = Spool()
-bp.height = 100
-bp.radius = 100
-bp.wall_width = 3
-bp.cut_radius = 40
-bp.internal_wall_width = 4
-#bp.internal_z_translate = -3
-bp.make()
-ex = bp.build()
-
-#show_object(ex)
-cq.exporters.export(ex,"stl/spool.stl")
+bp_power = PowerStation()
+bp_power.bp_cladding = SpoolCladdingGreebled()
+bp_power.bp_cladding.seed="morePower!"
+bp_power.make()
+power = bp_power.build()
+#show_object(power)
+cq.exporters.export(power,f"stl/powerStation_seed_{bp_power.bp_cladding.seed}.stl")
 ```
+
+Generates [this stl](stl/powerStation_seed_morePower!.stl)
+
+Refer to [examples directory](examples) to see other examples
+
 
 ## Dependencies
 * [CadQuery 2.1](https://github.com/CadQuery/cadquery)

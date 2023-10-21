@@ -8,6 +8,7 @@
 * Update pipe examples
 * Updated cradle to use pipe module
 * Added license blocks
+* Updated README.md
 
 ## 0.0.5
 * Added ladders to the powerStation.
