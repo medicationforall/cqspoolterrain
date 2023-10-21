@@ -24,7 +24,7 @@ cq.exporters.export(power,f"stl/powerStation_seed_{bp_power.bp_cladding.seed}.st
 
 Generates [this stl](stl/powerStation_seed_morePower!.stl)
 
-Refer to [examples directory](examples) to see other examples
+Refer to [examples directory](example) to see other examples
 
 
 ## Dependencies
