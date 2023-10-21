@@ -1,6 +1,14 @@
 # CQSpoolTerrain changelog
 
 ## Main wip
+* Refactored powerLine.py to pipe module, Created:
+  * pipe.straight
+  * pipe.curve
+  * pipe.end
+* Update pipe examples
+* Updated cradle to use pipe module
+* Added license blocks
+
 ## 0.0.5
 * Added ladders to the powerStation.
 * Added render flags.
