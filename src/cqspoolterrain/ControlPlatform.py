@@ -26,7 +26,11 @@ class ControlPlatform(Base):
             platform_height = 5,
             render_floor = True,
             render_stripes = True,
-            base_length = 75
+            base_length = 75,
+            platform_corner_chamfer = 4,
+            platform_bar_width = 10,
+            platform_stripe_width = 5,
+            platform_stripe_padding = .3
         ):
         super().__init__()
         self.length = length
@@ -34,27 +38,29 @@ class ControlPlatform(Base):
         self.height = height
         
         # platform
-        self.platform_height = platform_height
         self.render_floor = render_floor
-        self.render_stripes = render_stripes
         
         # base
         self.base_length = base_length
         
-        self.platform_bp = None
+        # platform blueprint init
+        self.platform_bp = Platform()
+        self.platform_bp.width = self.width
+        self.platform_bp.height = platform_height
+        self.platform_bp.render_center_cut = False
+        self.platform_bp.render_ladders = False
+        self.platform_bp.render_floor = self.render_floor
+        self.platform_bp.render_stripes = render_stripes
+        self.platform_bp.corner_chamfer = platform_corner_chamfer
+        self.platform_bp.bar_width = platform_bar_width
+        self.platform_bp.stripe_width = platform_stripe_width
+        self.platform_bp.stripe_padding = platform_stripe_padding
+
         self.platform = None
         self.frame = None
         self.corner_joins = None
         
     def __make_platform(self):
-        self.platform_bp = Platform()
-        self.platform_bp.width = self.width
-        self.platform_bp.height = self.platform_height
-        self.platform_bp.render_center_cut = False
-        self.platform_bp.render_ladders = False
-        self.platform_bp.render_floor = self.render_floor
-        self.platform_bp.render_stripes = self.render_stripes
-        self.platform_bp.corner_chamfer = 4
         self.platform_bp.make()
         
     def __make_frame(self):

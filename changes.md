@@ -9,6 +9,9 @@
 * Updated cradle to use pipe module
 * Added license blocks
 * Updated README.md
+* Added pipe.connector
+* added initial pipe.hatch
+* changed default chevron size on control platform
 
 ## 0.0.5
 * Added ladders to the powerStation.

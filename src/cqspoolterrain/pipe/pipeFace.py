@@ -18,9 +18,9 @@ def pipe_face(
         radius = 10, 
         side_radius = 1.5, 
         base_height = 1.5, 
-        side_a_deg_=60, 
-        side_b_deg=30, 
-        face_rotate=90
+        side_a_deg_= 60, 
+        side_b_deg = 30, 
+        face_rotate = 90
     ):
     main = cq.Workplane("XY").circle(radius).extrude(1)
     side = cq.Workplane("XY").circle(side_radius).extrude(1)
