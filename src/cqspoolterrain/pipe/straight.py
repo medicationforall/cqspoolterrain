@@ -19,7 +19,12 @@ from cqindustry import (
     cut_magnets
 )
 
-def straight(length = 75, connector_length=2, connector_radius = 11.5):
+def straight(
+        length = 75, 
+        connector_length=2, 
+        connector_radius = 11.5,
+        debug_magnets = False
+    ):
     connector_plate = cq.Workplane("XY").cylinder(connector_length, connector_radius).rotate((0,1,0),(0,0,0),90).translate((0,0,connector_radius+.5))
     outline = pipe_face()
     barrier = barrier_straight(
@@ -38,9 +43,9 @@ def straight(length = 75, connector_length=2, connector_radius = 11.5):
 
     barrier_plates_magnets = cut_magnets(
         barrier_plates,
-        y_offset=0,
+        y_offset = 0,
         z_lift = 6,
-        debug=False
+        debug = debug_magnets
     )
 
     return barrier_plates_magnets
