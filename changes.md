@@ -12,6 +12,8 @@
 * Added pipe.connector
 * added initial pipe.hatch
 * changed default chevron size on control platform
+* Broke out industrial_stairs
+* Added pipe.platform
 
 ## 0.0.5
 * Added ladders to the powerStation.
