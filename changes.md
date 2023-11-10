@@ -14,6 +14,8 @@
 * changed default chevron size on control platform
 * Broke out industrial_stairs
 * Added pipe.platform
+* Update the cqindustry version to 0.0.8
+  * Brings in newest features from cqdqueryhelper 0.1.6 and cqterrain 0.2.0
 
 ## 0.0.5
 * Added ladders to the powerStation.

@@ -19,7 +19,7 @@ classifiers = [
 ]
 
 dependencies = [
-'cqindustry @ git+https://github.com/medicationforall/cqindustry@0.0.7'
+'cqindustry @ git+https://github.com/medicationforall/cqindustry@0.0.8'
 ]
 
 
