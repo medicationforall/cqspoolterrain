@@ -20,10 +20,18 @@ from .. import industrial_stairs
 
 def platform(
         top_length = 42, 
-        stair_y_distance = 23
+        stair_y_distance = 23,
+        straight_pipe = None,
+        render_hollow = True,
+        render_through_hole = True
     ):
 
-    straight_pipe = straight()
+    if not straight_pipe:
+        straight_pipe = straight(
+            render_hollow = render_hollow, 
+            render_through_hole = render_through_hole
+        )
+
     stairs = industrial_stairs(
         length=24.5, 
         width = top_length - 2,

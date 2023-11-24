@@ -17,6 +17,8 @@
 * Update the cqindustry version to 0.0.8
   * Brings in newest features from cqdqueryhelper 0.1.6 and cqterrain 0.2.0
 * Added hollow cut out option to pipe.straight
+* pipe.curve added parameters.
+* pipe.platform added parameters
 
 ## 0.0.5
 * Added ladders to the powerStation.

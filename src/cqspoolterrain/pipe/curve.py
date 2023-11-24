@@ -55,11 +55,11 @@ def __add_magnets_with_count(shape, pip_height, max_count=2):
     
     return add_connector
 
-def __make_curved_connectors():
+def __make_curved_connectors(radius):
     connector_arc =(
         cq.Workplane("XY")
         .polarArray(
-            radius  = 75, 
+            radius  = radius, 
             startAngle  = -90, 
             angle  = 60, 
             count  = 3,
@@ -67,10 +67,10 @@ def __make_curved_connectors():
             rotate = True
         )
         .eachpoint(callback = __add_connector_with_count())
-    ).rotate((0,1,0),(0,0,0),90).translate((0,75,0))
+    ).rotate((0,1,0),(0,0,0),90).translate((0,radius,0))
     return connector_arc
 
-def __make_curved_magnets(pip_height = 2.4, pip_radius = 1.56):
+def __make_curved_magnets(radius=75, pip_height = 2.4, pip_radius = 1.56):
     pip = (
         cq.Workplane("XY")
         .cylinder(pip_height,pip_radius)
@@ -98,7 +98,7 @@ def __make_curved_magnets(pip_height = 2.4, pip_radius = 1.56):
     magnet_arc =(
         cq.Workplane("XY")
         .polarArray(
-            radius  = 75, 
+            radius  = radius, 
             startAngle  = -90, 
             angle  = 60, 
             count  = 2,
@@ -106,22 +106,22 @@ def __make_curved_magnets(pip_height = 2.4, pip_radius = 1.56):
             rotate = True
         )
         .eachpoint(callback = __add_magnets_with_count(magnet_cuts, pip_height))
-    ).rotate((0,1,0),(0,0,0),90).translate((0,75,0))
+    ).rotate((0,1,0),(0,0,0),90).translate((0,radius,0))
     return magnet_arc
 
 
-def curve():
+def curve(radius = 75, rotation_angle = -30):
     # --- cylinder connectors
-    connector_arc = __make_curved_connectors()
-    magnet_arc = __make_curved_magnets()
+    connector_arc = __make_curved_connectors(radius)
+    magnet_arc = __make_curved_magnets(radius)
 
     path = (
         cq.Workplane("ZY")
         .ellipseArc(
-            75,
-            75,
+            radius,
+            radius,
             300,
-            rotation_angle=-30
+            rotation_angle=rotation_angle
         )
     )
     power_face = pipe_face()
