@@ -1,6 +1,7 @@
 # CQSpoolTerrain changelog
 
 ## Main wip
+# 1.0.0
 * Refactored powerLine.py to pipe module, Created:
   * pipe.straight
   * pipe.curve
@@ -19,6 +20,8 @@
 * Added hollow cut out option to pipe.straight
 * pipe.curve added parameters.
 * pipe.platform added parameters
+* Added stairs component
+  * Added example
 
 ## 0.0.5
 * Added ladders to the powerStation.

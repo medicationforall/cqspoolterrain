@@ -2,6 +2,7 @@ from .Base import Base
 from .industrialStairs import industrial_stairs
 from .Spool import Spool
 from .Cradle import Cradle
+from .Stairs import Stairs
 from .StairLift import StairLift
 from .ControlPlatform import ControlPlatform
 from .SpoolCladding import SpoolCladding
