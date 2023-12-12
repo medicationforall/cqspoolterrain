@@ -1,6 +1,8 @@
 # CQSpoolTerrain changelog
 
 ## Main wip
+* Refactor StairLift to use Stairs component
+
 # 1.0.0
 * Refactored powerLine.py to pipe module, Created:
   * pipe.straight

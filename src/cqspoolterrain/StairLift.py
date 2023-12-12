@@ -14,7 +14,7 @@
 
 import cadquery as cq
 import math
-from . import Base
+from . import Base, Stairs
 from cqterrain import tile
 from cadqueryhelper import wave
 
@@ -41,57 +41,27 @@ class StairLift(Base):
         self.walkway_tile_size = walkway_tile_size
         self.tile_height = tile_height
         
-        self.stair_count = stair_count
-        self.stair_chamfer = stair_chamfer
         self.face_cut_width = 4
         self.face_cut_padding = 3
         self.wave_function = wave.square #wave.triangle wave.sine
         self.wave_segment_length = 5
+        
+        # Blueprints
+        self.bp_stairs = Stairs(stair_count=stair_count, stair_chamfer=stair_chamfer)
         
         #parts
         self.stairs = None
         self.overlook = None
         self.walkway = None
         
-    def __make_step(self, i, stair_interval):
-        step = cq.Workplane("XY").box(
-            stair_interval,
-            self.width/2, 
-            stair_interval*(i+1)
-        )
-        
-        cut_out = cq.Workplane("XY").box(
-            stair_interval,
-            (self.width/2)-4, 
-            stair_interval-2
-        ).faces("Z").edges("X").chamfer(2)
-        
-        #return cut_out
-        cut_z_translate = ((stair_interval/2)*(i))-1
-        return step.cut(cut_out.translate((0,0,cut_z_translate)))
-        
     def __make_stairs(self):
         stair_length = self.length/2
-        stair_interval = stair_length / self.stair_count
+        stair_width = self.width/2
         
-        stairs =(
-            cq.Workplane("XY")
-        )
-        
-        for i in range(self.stair_count):
-            step = self.__make_step(i, stair_interval)
-            
-            if self.stair_chamfer:
-                step = step.faces("<Y").edges("Z").chamfer(self.stair_chamfer)
-                
-            stairs = stairs.union(
-                step.translate((
-                    stair_length-(stair_interval/2)-stair_interval*i,
-                    -1*(self.width/4),
-                    -1*(self.height/2)+(stair_interval*(i+1)/2)
-                )))
-            
-        self.stairs = stairs
+        self.bp_stairs.length = stair_length
+        self.bp_stairs.width = stair_width
+        self.bp_stairs.height = self.height
+        self.bp_stairs.make()
         
     def _make_tile(self, tile_size):
         result = tile.slot_diagonal(
@@ -259,11 +229,13 @@ class StairLift(Base):
         
     def build(self):
         super().build()
+        self.stairs = self.bp_stairs.build()
+        
         scene = (
             cq.Workplane("XY")
             .union(self.walkway.translate((0,self.width/4,0)))
             .union(self.overlook.translate((-self.length/4,-self.width/4,0)))
-            .union(self.stairs)
+            .union(self.stairs.translate((self.bp_stairs.length/2,-1*(self.bp_stairs.width/2),0)))
         )
         
         panel_height = self._calculate_panel_height()
