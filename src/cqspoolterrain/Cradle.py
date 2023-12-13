@@ -74,7 +74,6 @@ class Cradle(Base):
         
     def make(self, parent=None):
         super().make(parent)
-        print('cradle make')
         if self.parent:
             self.parent.make()
         self.__make_cradle()

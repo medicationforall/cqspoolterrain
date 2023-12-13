@@ -2,6 +2,7 @@
 
 ## Main wip
 * Refactor StairLift to use Stairs component
+* Remove cradle print statement
 
 # 1.0.0
 * Refactored powerLine.py to pipe module, Created:
