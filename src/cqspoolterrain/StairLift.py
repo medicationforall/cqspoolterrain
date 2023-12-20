@@ -14,9 +14,9 @@
 
 import cadquery as cq
 import math
-from . import Base, Stairs
+from . import Stairs
 from cqterrain import tile
-from cadqueryhelper import wave
+from cadqueryhelper import Base, wave
 
 
 class StairLift(Base):

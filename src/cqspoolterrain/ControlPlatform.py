@@ -13,9 +13,8 @@
 # limitations under the License.
 
 import cadquery as cq
-from . import Base
 from cqindustry import Platform
-from cadqueryhelper import shape
+from cadqueryhelper import Base, shape
 
 class ControlPlatform(Base):
     def __init__(
@@ -26,7 +25,6 @@ class ControlPlatform(Base):
             platform_height = 5,
             render_floor = True,
             render_stripes = True,
-            base_length = 75,
             platform_corner_chamfer = 4,
             platform_bar_width = 10,
             platform_stripe_width = 5,
@@ -39,9 +37,6 @@ class ControlPlatform(Base):
         
         # platform
         self.render_floor = render_floor
-        
-        # base
-        self.base_length = base_length
         
         # platform blueprint init
         self.platform_bp = Platform()
@@ -137,7 +132,6 @@ class ControlPlatform(Base):
         self.platform = self.platform_bp.build()
         scene = (
             cq.Workplane("XY")
-            #.box(self.base_length,self.width-5,self.height)
             .union(self.platform.translate((0,0,(self.height/2)+2.5)))
             .union(self.frame)
             .union(self.corner_joins)

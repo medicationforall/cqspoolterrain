@@ -13,7 +13,8 @@
 # limitations under the License.
 
 import cadquery as cq
-from . import Base, pipe
+from . import pipe
+from cadqueryhelper import Base
 
 class Cradle(Base):
     def __init__(

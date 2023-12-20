@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import cadquery as cq
-from . import Base
+from cadqueryhelper import Base
 
 class Stairs(Base):
     def __init__(

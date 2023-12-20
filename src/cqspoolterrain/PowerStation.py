@@ -13,9 +13,11 @@
 # limitations under the License.
 
 import cadquery as cq
-from . import Spool, Cradle, Base, StairLift, ControlPlatform, SpoolCladding 
+from . import Spool, Cradle, StairLift, ControlPlatform, SpoolCladding
+from cadqueryhelper import Base
 from cqindustry import Walkway
 from cqterrain import Ladder
+
 
 class PowerStation(Base):
     def __init__(self):

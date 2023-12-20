@@ -1,10 +1,14 @@
 # CQSpoolTerrain changelog
 
 ## Main wip
+
+## 1.1.0
+* Upped cqindustry version to 0.1.0
+* Removed local Base class and instead resolve Base from cadqueryhelper
 * Refactor StairLift to use Stairs component
 * Remove cradle print statement
 
-# 1.0.0
+## 1.0.0
 * Refactored powerLine.py to pipe module, Created:
   * pipe.straight
   * pipe.curve

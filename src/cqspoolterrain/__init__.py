@@ -1,4 +1,3 @@
-from .Base import Base
 from .industrialStairs import industrial_stairs
 from .Spool import Spool
 from .Cradle import Cradle
