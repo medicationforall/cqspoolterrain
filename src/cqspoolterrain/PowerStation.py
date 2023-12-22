@@ -34,9 +34,6 @@ class PowerStation(Base):
         self.p_cradle['angle'] = 45
         
         self.p_stairs = {}
-        self.p_control = {}
-        self.p_control['render_stripes'] = True
-        self.p_control['render_floor'] = True
         self.ladder_raise = 25
         self.ladder_increase = 10
         self.render_stairs = True
@@ -55,8 +52,8 @@ class PowerStation(Base):
         self.bp_walk = Walkway()
 
         self.bp_stairs = StairLift(**self.p_stairs)
-        self.bp_control = ControlPlatform(**self.p_control)
-        self.bp_cladding = SpoolCladding()#(**self.p_cladding)
+        self.bp_control = ControlPlatform()
+        self.bp_cladding = SpoolCladding()
         self.bp_ladder = Ladder()
         self.bp_ladder.height=self.bp_spool.radius + self.ladder_increase
         

@@ -2,9 +2,14 @@
 
 ## Main wip
 
+## 1.2.0
+* Split SteelFrame class from ControlPlatform
+* Changed Control platform constructor (__init__) method signature
+
 ## 1.1.0
 * Upped cqindustry version to 0.1.0
 * Removed local Base class and instead resolve Base from cadqueryhelper
+* Fix ControlPlatform Example not respecting parameter changes.
 * Refactor StairLift to use Stairs component
 * Remove cradle print statement
 
