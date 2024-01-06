@@ -93,7 +93,20 @@ class Spool(Base):
                 0,
                 0,
                 self.internal_z_translate
-            )))
-            
+            )))        
+        )
+        return scene
+    
+    def build_no_center(self, ):
+        super().build()
+        scene = (
+            cq.Workplane("XY")
+            .union(self.outline)
+            .cut(self.cut_wall)
+            .cut(self.cut_wall.translate((
+                0,
+                0,
+                self.internal_z_translate
+            )))            
         )
         return scene

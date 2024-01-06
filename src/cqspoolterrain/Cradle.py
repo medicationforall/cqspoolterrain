@@ -99,7 +99,7 @@ class Cradle(Base):
         )
         if self.parent:
             cut_spool = (
-                self.parent.build()
+                self.parent.build_no_center()
                 .rotate((1,0,0),(0,0,0),90)
                 .translate((0,0,self.parent.radius))
             )

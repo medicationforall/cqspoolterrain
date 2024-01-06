@@ -2,6 +2,13 @@
 
 ## Main wip
 
+## 1.2.1
+* Spool added build_no_center() method to make the spool without the center hole cut out.
+* Upgdated Cradle to use the spool build_no_center build method when generating it's cut spool.
+* Added example spool_no_center.py
+* Added example cradle_tall.py example
+* Updated cradle example to pass in the spool as a parent on the make() call.
+
 ## 1.2.0
 * Split SteelFrame class from ControlPlatform
 * Changed Control platform constructor (__init__) method signature

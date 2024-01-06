@@ -17,11 +17,11 @@ spool_ex = (
 )
 
 bp = Cradle()
-bp.height = bp_spool.radius - bp_spool.cut_radius+2
+bp.height = 70
 bp.angle = 45
 bp.make(bp_spool)
 cradle_ex = bp.build().translate((0,0,bp.height/2))
 
-
 #show_object(cradle_ex)
-cq.exporters.export(cradle_ex,"stl/cradle.stl")
+#show_object(spool_ex.translate((0,0,2)))
+cq.exporters.export(cradle_ex,"stl/cradle_tall.stl")
