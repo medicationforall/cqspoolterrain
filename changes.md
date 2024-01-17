@@ -2,6 +2,10 @@
 
 ## Main wip
 
+## 1.2.2
+* Hollowed out stairlift
+* Fix stairs example
+
 ## 1.2.1
 * Spool added build_no_center() method to make the spool without the center hole cut out.
 * Upgdated Cradle to use the spool build_no_center build method when generating it's cut spool.

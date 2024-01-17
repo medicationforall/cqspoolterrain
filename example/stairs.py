@@ -8,9 +8,10 @@ bp.height = 50
 bp.stair_count = 5
 bp.stair_chamfer = .5
 bp.render_step_cut = True
+bp.render_hollow = True
 bp.cut_padding = 10
 bp.make()
 ex_stairs = bp.build()
 
-#show_object(stairs)
+#show_object(ex_stairs)
 cq.exporters.export(ex_stairs,"stl/stairs.stl")

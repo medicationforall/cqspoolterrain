@@ -24,6 +24,7 @@ class Stairs(Base):
             stair_count = 9,
             stair_chamfer = None,
             render_step_cut = True,
+            render_hollow = True,
             cut_padding = 4
         ):
         super().__init__()
@@ -37,6 +38,7 @@ class Stairs(Base):
         
         self.render_step_cut = render_step_cut
         self.cut_padding = cut_padding
+        self.render_hollow = render_hollow
 
         #parts
         self.stairs = None
@@ -57,9 +59,17 @@ class Stairs(Base):
             
             #return cut_out
             cut_z_translate = ((stair_interval_height/2)*(i))-1
-            return step.cut(cut_out.translate((0,0,cut_z_translate)))
-        else:
-            return step
+            step = step.cut(cut_out.translate((0,0,cut_z_translate)))
+            
+        if self.render_hollow and i > 1:
+            shell = cq.Workplane("XY").box(
+                stair_interval_lengh,
+                self.width-6, 
+                stair_interval_height*(i-1)
+            ).translate((0,0,-stair_interval_height-1))
+            step = step.cut(shell)
+            
+        return step#.translate((0,5*i,1+i))
 
     def __make_stairs(self):
         stair_length = self.length
@@ -97,6 +107,6 @@ class Stairs(Base):
         super().build()
         scene = (
             cq.Workplane("XY")
-            .union(self.stairs)
+            .add(self.stairs)
         )
         return scene

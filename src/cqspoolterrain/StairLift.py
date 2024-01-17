@@ -18,7 +18,6 @@ from . import Stairs
 from cqterrain import tile
 from cadqueryhelper import Base, wave
 
-
 class StairLift(Base):
     def __init__(
             self,
@@ -53,6 +52,7 @@ class StairLift(Base):
         self.stairs = None
         self.overlook = None
         self.walkway = None
+        self.wall_cut = None
         
     def __make_stairs(self):
         stair_length = self.length/2
@@ -118,6 +118,9 @@ class StairLift(Base):
             self.height
         )
         
+        overlook = overlook.faces("<Z").shell(-self.face_cut_width-1)
+
+        
         # --- face cuts
         panel_y_length = self.length/2 - self.face_cut_padding*2
         panel_height = self._calculate_panel_height()
@@ -176,6 +179,9 @@ class StairLift(Base):
             self.height
         )
         
+        #shell
+        walkway = walkway.faces("<Z").shell(-self.face_cut_width-1)
+        
         panel_height = self._calculate_panel_height()
         
         face_y_cut = cq.Workplane("XY").box(
@@ -221,11 +227,20 @@ class StairLift(Base):
         
         self.walkway = walkway
         
+    def __make_wall_cut(self):
+        wall_cut = (
+            cq.Workplane("XY")
+            .box((self.length/2)-(self.face_cut_width+1)*2,self.width-(self.face_cut_width+1)*2,self.height-(self.face_cut_width))
+        ).translate((-1*(self.length/4),0,-1*(self.face_cut_width-1)))
+        self.wall_cut = wall_cut
+        
+        
     def make(self, parent=None):
         super().make(parent)
         self.__make_stairs()
         self.__make_overlook()
         self.__make_walkway()
+        self.__make_wall_cut()
         
     def build(self):
         super().build()
@@ -236,6 +251,7 @@ class StairLift(Base):
             .union(self.walkway.translate((0,self.width/4,0)))
             .union(self.overlook.translate((-self.length/4,-self.width/4,0)))
             .union(self.stairs.translate((self.bp_stairs.length/2,-1*(self.bp_stairs.width/2),0)))
+            .cut(self.wall_cut)
         )
         
         panel_height = self._calculate_panel_height()
