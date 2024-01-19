@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import cadquery as cq
+import math
 from cadqueryhelper import Base, shape
 
 class SteelFrame(Base):
@@ -22,53 +23,63 @@ class SteelFrame(Base):
         self.width = 75
         self.height = 70
         
-        #solids
-        self.frame = None
-        self.corner_joins = None
+        self.segment_length = 75
+        self.segment_width = 75
         
-    def __make_frame(self):
+        self.z_width = 5
+        self.z_height = 10
+        self.z_web_thickness = 2
+        self.z_flange_thickness = 2
+        self.z_join_distance = 1.3
+        
+        self.y_width = 5
+        self.y_height = 10
+        self.y_web_thickness = 2
+        self.y_flange_thickness = 2
+        self.y_join_distance = 1.3
+        
+        self.render_debug_outline = False
+        self.render_debug_grid = False
+        
+        #solids
+        self.z_beam = None
+        self.y_beam = None
+        self.corner_joins = None
+        self.z_grid = None
+        self.y_grid = None
+        self.corner_grid = None
+        self.cube_grid = None
+        
+    def __make_z_beam(self):
         z_beam = shape.i_beam(
           length=self.height,
-          width=5,
-          height=10,
-          web_thickness=2,
-          flange_thickness=2,
-          join_distance=1.3
+          width = self.z_width,
+          height = self.z_height,
+          web_thickness = self.z_web_thickness,
+          flange_thickness = self.z_flange_thickness,
+          join_distance = self.z_join_distance
         ).rotate((0,1,0),(0,0,0),90)
+        self.z_beam = z_beam
+        
+    def __make_y_beam(self):
+        y_count = math.floor(self.width / self.segment_width)
         
         y_beam = shape.i_beam(
-          length=self.width-(10/2),
-          width=5,
-          height=10,
-          web_thickness=2,
-          flange_thickness=2,
-          join_distance=1.3
+          length = self.segment_width - (self.z_width/y_count),
+          width = self.y_width,
+          height = self.y_height,
+          web_thickness = self.y_web_thickness,
+          flange_thickness = self.z_flange_thickness,
+          join_distance = self.y_join_distance
         ).rotate((0,0,1),(0,0,0),90)
-        
-        c_x = (self.length/2)-(10/2)
-        c_y = (self.width/2)-(5/2)
-        frame = (
-            cq.Workplane("XY")
-            .add(z_beam.translate((c_x,c_y,0)))
-            .add(z_beam.translate((-c_x,c_y,0)))
-            .add(z_beam.translate((c_x,-c_y,0)))
-            .add(z_beam.translate((-c_x,-c_y,0)))
-            
-            .add(z_beam.translate((0,-c_y,0)))
-            .add(z_beam.translate((0,c_y,0)))
-            
-            .add(y_beam.translate((c_x,0,self.height/2)))
-            .add(y_beam.translate((0,0,self.height/2)))
-            .add(y_beam.translate((-c_x,0,self.height/2)))
-        )
-        
-        self.frame = frame
+        self.y_beam = y_beam
         
     def __make_corner_joins(self):
-        x_translate = self.width/2 - 5 - 5/2 +1.5
+        y_count = math.floor(self.width / self.segment_width)
+        x_translate = self.segment_width/2 - (self.z_width/(y_count)) - 1*y_count#- 5 - 5/2 +1.5
         z_translate = self.height/2 - 10/2 - 5/2
         corner_join = (
-            shape.corner_join(5,5,5,1,1)
+            shape.corner_join(5,5,self.y_width,1,1)
             .rotate((0,1,0),(0,0,0),90)
         )
         
@@ -77,28 +88,117 @@ class SteelFrame(Base):
             .union(corner_join.translate((0,x_translate,z_translate)))
             .union(corner_join.rotate((0,0,1),(0,0,0),180).translate((0,-x_translate,z_translate)))
         )
-        frame_x_translate = self.length/2  - 10/2
-        joins = (
+
+        self.corner_joins = frame_joins
+        
+    def __make_z_grid(self):
+        def add_z_beam(loc):
+            return self.z_beam.val().located(loc)
+        
+        x_count = math.floor(self.length / self.segment_length)
+        y_count = math.floor(self.width / self.segment_width)
+
+        result = (
             cq.Workplane("XY")
-            .union(frame_joins)
-            .union(frame_joins.translate((frame_x_translate,0,0)))
-            .union(frame_joins.translate((-frame_x_translate,0,0)))
+            .rarray(
+                xSpacing = self.segment_length - (self.z_height/x_count), 
+                ySpacing = self.segment_width - (self.z_width/y_count),
+                xCount = x_count+1, 
+                yCount= y_count+1, 
+                center = True)
+            .eachpoint(callback = add_z_beam)
         )
+        self.z_grid = result
+        
+    def __make_y_grid(self):
+        def add_y_beam(loc):
+            return self.y_beam.val().located(loc)
+        
+        x_count = math.floor(self.length / self.segment_length)
+        y_count = math.floor(self.width / self.segment_width)
+
+        result = (
+            cq.Workplane("XY")
+            .rarray(
+                xSpacing = self.segment_length - (self.z_height/(x_count)), 
+                ySpacing = self.segment_width - (self.z_width/(y_count)),
+                xCount = x_count+1, 
+                yCount= y_count, 
+                center = True)
+            .eachpoint(callback = add_y_beam)
+        ).translate((0,0,self.height/2))
+        self.y_grid = result
+        
+    def __make_corner_grid(self):
+        def add_y_corners(loc):
+            return self.corner_joins.val().located(loc)
+        
+        x_count = math.floor(self.length / self.segment_length)
+        y_count = math.floor(self.width / self.segment_width)
+        
+        result = (
+            cq.Workplane("XY")
+            .rarray(
+                xSpacing = self.segment_length - (self.z_height/(x_count)), 
+                ySpacing = self.segment_width - (self.z_width/(y_count)),
+                xCount = x_count+1, 
+                yCount= y_count, 
+                center = True)
+            .eachpoint(callback = add_y_corners)
+        )
+        self.corner_grid = result
         
         
-        self.corner_joins = joins
+    def __make_cube_grid(self):
+        x_count = math.floor(self.length / self.segment_length)
+        y_count = math.floor(self.width / self.segment_width)
+
+        def add_cube(loc):
+            return cq.Workplane("XY").box(
+                self.segment_length - (self.z_height/x_count), 
+                self.segment_width - (self.z_width/y_count), 
+                self.height).val().located(loc)
+        
+        result = (
+            cq.Workplane("XY")
+            .rarray(
+                xSpacing = self.segment_length - (self.z_height/x_count), 
+                ySpacing = self.segment_width - (self.z_width/y_count),
+                xCount = x_count, 
+                yCount= y_count, 
+                center = True)
+            .eachpoint(callback = add_cube)
+        )
+        self.cube_grid = result
         
     def make(self, parent="none"):
         super().make(parent)
-        self.__make_frame()
+        self.__make_z_beam()
+        self.__make_y_beam()
         self.__make_corner_joins()
-        
+        self.__make_z_grid()
+        self.__make_y_grid()
+        self.__make_corner_grid()
+        self.__make_cube_grid()
         
     def build(self):
         super().build()
         scene = (
             cq.Workplane("XY")
-            .union(self.frame)
-            .union(self.corner_joins)
         )
+        
+        if self.render_debug_grid:
+            scene = scene.add(self.cube_grid)
+        
+        scene = (
+            scene
+            .add(self.z_grid)
+            .add(self.y_grid)
+            .add(self.corner_grid)
+        )
+        
+        if self.render_debug_outline:
+            outline = cq.Workplane("XY").box(self.length, self.width, self.height)
+            scene = scene.add(outline)
+            
         return scene

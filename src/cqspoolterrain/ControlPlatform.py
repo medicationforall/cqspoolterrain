@@ -44,7 +44,12 @@ class ControlPlatform(Base):
         
     def make(self, parent=None):
         super().make(parent)
+        self.platform_bp.width = self.width
+        self.platform_bp.length = self.length
         self.platform_bp.make()
+
+        self.bp_frame.width = self.width
+        self.bp_frame.length = self.length
         self.bp_frame.make()
     
     def build(self):

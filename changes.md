@@ -5,6 +5,9 @@
 ## 1.2.2
 * Hollowed out stairlift
 * Fix stairs example
+* Added a render flag to hollow out the stairs.
+* Refactored SteelFrame to accomodate length and width correctly duplicating frame structure
+* Added control platform alt example.
 
 ## 1.2.1
 * Spool added build_no_center() method to make the spool without the center hole cut out.
