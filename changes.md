@@ -8,6 +8,7 @@
 * Added a render flag to hollow out the stairs.
 * Refactored SteelFrame to accomodate length and width correctly duplicating frame structure
 * Added control platform alt example.
+* Upped cqindustry version 0.1.1
 
 ## 1.2.1
 * Spool added build_no_center() method to make the spool without the center hole cut out.
