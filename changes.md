@@ -2,6 +2,10 @@
 
 ## Main wip
 
+## 1.2.3
+* Added ControlPlatformPrint
+* Added example for ControlPlatformPrint and generated stl's
+
 ## 1.2.2
 * Hollowed out stairlift
 * Fix stairs example
