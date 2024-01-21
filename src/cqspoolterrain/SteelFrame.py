@@ -77,7 +77,7 @@ class SteelFrame(Base):
     def __make_corner_joins(self):
         y_count = math.floor(self.width / self.segment_width)
         x_translate = self.segment_width/2 - (self.z_width/(y_count)) - 1*y_count#- 5 - 5/2 +1.5
-        z_translate = self.height/2 - 10/2 - 5/2
+        z_translate = self.height/2 - self.y_height/2 - 5/2
         corner_join = (
             shape.corner_join(5,5,self.y_width,1,1)
             .rotate((0,1,0),(0,0,0),90)

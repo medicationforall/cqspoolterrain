@@ -4,10 +4,15 @@ from cqspoolterrain import ControlPlatformPrint
 bp_control = ControlPlatformPrint()
 bp_control.length = 150
 bp_control.width = 75
-bp_control.height = 70
+bp_control.height = 71
+
+bp_control.y_height = 8
+bp_control.frame_insert_margin = .8
+bp_control.frame_insert_height = 1
+bp_control.frame_insert_height_margin = 1
 
 bp_p = bp_control.platform_bp
-bp_p.height = 5
+bp_p.height = 4
 bp_p.corner_chamfer = 4
 
 bp_p.render_floor = True

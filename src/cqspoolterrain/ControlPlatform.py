@@ -50,15 +50,17 @@ class ControlPlatform(Base):
 
         self.bp_frame.width = self.width
         self.bp_frame.length = self.length
+        self.bp_frame.height = self.height
         self.bp_frame.make()
     
     def build(self):
         super().build()
         platform = self.platform_bp.build()
         frame = self.bp_frame.build()
+        z_translate = (self.height/2)+(self.platform_bp.height/2)
         scene = (
             cq.Workplane("XY")
-            .union(platform.translate((0,0,(self.height/2)+2.5)))
+            .union(platform.translate((0,0,(self.height/2)+z_translate)))
             .union(frame)
         )
         return scene

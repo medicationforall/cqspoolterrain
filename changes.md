@@ -5,6 +5,8 @@
 ## 1.2.3
 * Added ControlPlatformPrint
 * Added example for ControlPlatformPrint and generated stl's
+* Fixed ControlPlatform and ControlPlatformPrint not setting height for frame in make method.
+* Fix bug where steelFrame was not taking y_height into account when placing corner joins.
 
 ## 1.2.2
 * Hollowed out stairlift

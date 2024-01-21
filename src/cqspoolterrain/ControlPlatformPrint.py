@@ -24,6 +24,11 @@ class ControlPlatformPrint(Base):
         self.width = 75
         self.height = 70
         
+        self.segment_width = 75
+        self.segment_length = 75
+        self.y_width = 5
+        self.y_height = 10
+        
         # platform blueprint init
         self.platform_bp = Platform()
         self.platform_bp.width = self.width
@@ -41,7 +46,8 @@ class ControlPlatformPrint(Base):
         self.bp_frame_insert = SteelFrame()
         
         self.frame_insert_height = 1
-        self.frame_insert_web_margin = 0.4
+        self.frame_insert_height_margin = 1
+        self.frame_insert_margin = 0.4
 
         # solids
         self.platform = None
@@ -54,20 +60,31 @@ class ControlPlatformPrint(Base):
 
         self.bp_frame.width = self.width
         self.bp_frame.length = self.length
+        self.bp_frame.height = self.height
+        self.bp_frame.segment_length = self.segment_length
+        self.bp_frame.segment_width = self.segment_width
+        self.bp_frame.y_width = self.y_width
+        self.bp_frame.y_height = self.y_height
         self.bp_frame.make()
         
-        self.bp_frame_insert.width = self.width
+        self.bp_frame_insert.width = self.width + self.frame_insert_margin
         self.bp_frame_insert.length = self.length
-        self.bp_frame_insert.y_web_thickness = self.bp_frame.y_web_thickness + self.frame_insert_web_margin
+        self.bp_frame_insert.height = self.height
+        self.bp_frame_insert.segment_length = self.segment_length
+        self.bp_frame_insert.segment_width = self.segment_width + self.frame_insert_margin
+        self.bp_frame_insert.y_web_thickness = self.bp_frame.y_web_thickness + self.frame_insert_margin
+        self.bp_frame_insert.y_width = self.y_width + self.frame_insert_margin
+        self.bp_frame_insert.y_height = self.y_height + self.frame_insert_height + self.frame_insert_margin
         self.bp_frame_insert.make()
     
     def build(self):
         super().build()
         platform = self.platform_bp.build()
         frame = self.bp_frame.build()
+        z_translate = (self.height/2)+(self.platform_bp.height/2)
         scene = (
             cq.Workplane("XY")
-            .union(platform.translate((0,0,(self.height/2)+2.5)))
+            .union(platform.translate((0,0,z_translate)))
             .union(frame)
         )
         return scene
@@ -75,37 +92,40 @@ class ControlPlatformPrint(Base):
     def build_print_patform(self):
         super().build()
         platform = self.platform_bp.build()
+        frame = self.bp_frame.build()
         frame_insert = self.bp_frame_insert.build()
+        z_translate = (self.height/2)+(self.platform_bp.height/2)
         
         scene = (
             cq.Workplane("XY")
-            .union(platform.translate((0,0,(self.height/2)+2.5)))
-            .union(frame_insert)
+            .union(platform.translate((0,0,z_translate)))
+            .union(frame)
         )
-        
         
         platform_cut = (
             cq.Workplane("XY")
             .box(self.length, self.width, self.platform_bp.height)
-            .translate((0,0,self.platform_bp.height/2+self.height/2+self.frame_insert_height))
+            .translate((0,0,z_translate+self.frame_insert_height+self.frame_insert_height_margin))
         )
         
         print_frame_insert = (
             cq.Workplane("XY")
             .add(frame_insert)
-            .cut(platform_cut.translate((0,0,self.frame_insert_web_margin)))
+            .cut(platform_cut.translate((0,0,0)))
         )
         
-        
-        frame_cut_box = cq.Workplane("XY").box(self.length, self.width, self.height)
-        
+        frame_cut_box = cq.Workplane("XY").box(
+            self.length, 
+            self.width, 
+            self.height
+        )
+    
         print_platform = (
             cq.Workplane("XY")
             .union(scene)
             .cut(frame_cut_box)
             .cut(print_frame_insert)
         )
-        #return print_frame.add(print_frame_insert.translate((0,100,0)))
         return print_platform
     
     def build_print_frame(self):
@@ -154,3 +174,4 @@ class ControlPlatformPrint(Base):
         ).translate((self.length/2-self.bp_frame.z_height/2,0,0))
         
         return single_frame.rotate((0,1,0),(0,0,0),90)
+    
