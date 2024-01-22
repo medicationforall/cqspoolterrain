@@ -7,7 +7,7 @@ bp_control.width = 75
 bp_control.height = 71
 
 bp_control.y_height = 8
-bp_control.frame_insert_margin = .8
+bp_control.frame_insert_margin = .6
 bp_control.frame_insert_height = 1
 bp_control.frame_insert_height_margin = 1
 
