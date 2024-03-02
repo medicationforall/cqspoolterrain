@@ -2,6 +2,9 @@
 
 ## Main wip
 
+## 1.3.0
+* Added SpoolLogoStack and example.
+
 ## 1.2.3
 * Added ControlPlatformPrint
 * Added example for ControlPlatformPrint and generated stl's

@@ -14,3 +14,5 @@ from .SpoolCladdingGreebled import SpoolCladdingGreebled
 from .SpoolCladdingGreebledUnique import SpoolCladdingGreebledUnique
 
 from .PowerStation import PowerStation
+
+from .SpoolLogoStack import SpoolLogoStack
