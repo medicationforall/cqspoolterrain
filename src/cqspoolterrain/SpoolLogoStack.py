@@ -7,25 +7,24 @@ class SpoolLogoStack(Base):
         super().__init__()
         
         #parameters
-        self.spool_height = 60.00
-        self.spool_radius = 97.50
-        self.spool_wall_width = 4.00
-        self.spool_cut_radius = 36.50
-        self.spool_internal_wall_width = 3.00
-        self.stack_levels = 3
-        self.logo_text = "test"
-        
-        self.font_size = 55
-        self.font_width = 10
-        self.font_center_offset = 0
-        self.word_offset = None
-        self.render_spool = True
+        self.spool_height:float = 60.00
+        self.spool_radius:float = 97.50
+        self.spool_wall_width:float = 4.00
+        self.spool_cut_radius:float = 36.50
+        self.spool_internal_wall_width:float = 3.00
+
+        self.logo_text:str = "test"
+        self.font_size:float = 55
+        self.font_width:float = 10
+        self.font_center_offset:float = 0
+        self.word_offset:list[float]|None = None
+        self.render_spool:bool = True
         
         #blueprints
-        self.bp_spool = Spool()
+        self.bp_spool:Spool = Spool()
         
         #shapes
-        self.word_claddings = None
+        self.word_claddings:list|None = None
         
     def __make_word_cladding(self, word):
         return cq.Workplane("XY").text(word,self.font_size, self.font_width)
@@ -85,16 +84,16 @@ class SpoolLogoStack(Base):
     
     def __build_spool_words(self):
         stack_levels = self.__calculate_stack_levels()
-        word_count = 0
+        word_count:float = 0
         
-        def add_word(loc):
+        def add_word(loc:cq.Location)->cq.Shape:
             nonlocal word_count
-            word = self.word_claddings.pop().translate((0,0,-1*(self.font_width/2)))
+            word = self.word_claddings.pop().translate((0,0,-1*(self.font_width/2))) #type:ignore
             word_length = word.val().BoundingBox().xlen+10
             
             word_offset = 0
             if self.word_offset:
-                word_offset = self.word_offset[word_count]
+                word_offset = self.word_offset[word_count] #type:ignore
             
             word_block = (
                 cq.Workplane("XY")

@@ -18,6 +18,15 @@ bp_power.make()
 power3 = bp_power.build()
 
 # use cqeditor or equivalent that supports show_object
-show_object(power)
-show_object(power2.translate((0,250,0)))
-show_object(power3.translate((0,500,0)))
+#show_object(power)
+#show_object(power2.translate((0,250,0)))
+#show_object(power3.translate((0,500,0)))
+
+scene = (
+    cq.Workplane("XY")
+    .union(power)
+    .union(power2.translate((0,250,0)))
+    .union(power3.translate((0,500,0)))
+)
+
+cq.exporters.export(scene, 'stl/power_stations_side_by_side.stl')

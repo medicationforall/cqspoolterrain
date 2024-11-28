@@ -19,40 +19,40 @@ from cadqueryhelper import Base, shape
 class SteelFrame(Base):
     def __init__(self):
         super().__init__()
-        self.length = 150
-        self.width = 75
-        self.height = 70
+        self.length:float = 150
+        self.width:float = 75
+        self.height:float = 70
         
-        self.segment_length = 75
-        self.segment_width = 75
+        self.segment_length:float = 75
+        self.segment_width:float = 75
         
-        self.z_width = 5
-        self.z_height = 10
-        self.z_web_thickness = 2
-        self.z_flange_thickness = 2
-        self.z_join_distance = 1.3
+        self.z_width:float = 5
+        self.z_height:float = 10
+        self.z_web_thickness:float = 2
+        self.z_flange_thickness:float = 2
+        self.z_join_distance:float = 1.3
         
-        self.y_width = 5
-        self.y_height = 10
-        self.y_web_thickness = 2
-        self.y_flange_thickness = 2
-        self.y_join_distance = 1.3
+        self.y_width:float = 5
+        self.y_height:float = 10
+        self.y_web_thickness:float = 2
+        self.y_flange_thickness:float = 2
+        self.y_join_distance:float = 1.3
         
-        self.render_debug_outline = False
-        self.render_debug_grid = False
+        self.render_debug_outline:bool = False
+        self.render_debug_grid:bool = False
         
         #solids
-        self.z_beam = None
-        self.y_beam = None
-        self.corner_joins = None
-        self.z_grid = None
-        self.y_grid = None
-        self.corner_grid = None
-        self.cube_grid = None
+        self.z_beam:cq.Workplane|None = None
+        self.y_beam:cq.Workplane|None = None
+        self.corner_joins:cq.Workplane|None = None
+        self.z_grid:cq.Workplane|None = None
+        self.y_grid:cq.Workplane|None = None
+        self.corner_grid:cq.Workplane|None = None
+        self.cube_grid:cq.Workplane|None = None
         
     def __make_z_beam(self):
         z_beam = shape.i_beam(
-          length=self.height,
+          length = self.height,
           width = self.z_width,
           height = self.z_height,
           web_thickness = self.z_web_thickness,
@@ -92,8 +92,8 @@ class SteelFrame(Base):
         self.corner_joins = frame_joins
         
     def __make_z_grid(self):
-        def add_z_beam(loc):
-            return self.z_beam.val().located(loc)
+        def add_z_beam(loc:cq.Location)->cq.Shape:
+            return self.z_beam.val().located(loc)#type:ignore
         
         x_count = math.floor(self.length / self.segment_length)
         y_count = math.floor(self.width / self.segment_width)
@@ -111,8 +111,8 @@ class SteelFrame(Base):
         self.z_grid = result
         
     def __make_y_grid(self):
-        def add_y_beam(loc):
-            return self.y_beam.val().located(loc)
+        def add_y_beam(loc:cq.Location)->cq.Shape:
+            return self.y_beam.val().located(loc)#type:ignore
         
         x_count = math.floor(self.length / self.segment_length)
         y_count = math.floor(self.width / self.segment_width)
@@ -130,8 +130,8 @@ class SteelFrame(Base):
         self.y_grid = result
         
     def __make_corner_grid(self):
-        def add_y_corners(loc):
-            return self.corner_joins.val().located(loc)
+        def add_y_corners(loc:cq.Location)->cq.Shape:
+            return self.corner_joins.val().located(loc)#type:ignore
         
         x_count = math.floor(self.length / self.segment_length)
         y_count = math.floor(self.width / self.segment_width)
@@ -153,11 +153,11 @@ class SteelFrame(Base):
         x_count = math.floor(self.length / self.segment_length)
         y_count = math.floor(self.width / self.segment_width)
 
-        def add_cube(loc):
+        def add_cube(loc:cq.Location)->cq.Shape:
             return cq.Workplane("XY").box(
                 self.segment_length - (self.z_height/x_count), 
                 self.segment_width - (self.z_width/y_count), 
-                self.height).val().located(loc)
+                self.height).val().located(loc)#type:ignore
         
         result = (
             cq.Workplane("XY")
@@ -187,15 +187,16 @@ class SteelFrame(Base):
             cq.Workplane("XY")
         )
         
-        if self.render_debug_grid:
+        if self.render_debug_grid and self.cube_grid:
             scene = scene.add(self.cube_grid)
         
-        scene = (
-            scene
-            .add(self.z_grid)
-            .add(self.y_grid)
-            .add(self.corner_grid)
-        )
+        if self.z_grid and self.y_grid and self.corner_grid:
+            scene = (
+                scene
+                .add(self.z_grid)
+                .add(self.y_grid)
+                .add(self.corner_grid)
+            )
         
         if self.render_debug_outline:
             outline = cq.Workplane("XY").box(self.length, self.width, self.height)

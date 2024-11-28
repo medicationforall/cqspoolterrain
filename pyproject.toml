@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cqspoolterrain"
-version = "1.3.0"
+version = "2.0.0"
 authors = [
   { name="James Adams", email="inklink28@gmail.com" }
 ]
@@ -19,7 +19,7 @@ classifiers = [
 ]
 
 dependencies = [
-'cqindustry @ git+https://github.com/medicationforall/cqindustry@0.1.1'
+'cqindustry @ git+https://github.com/medicationforall/cqindustry@2.0.1'
 ]
 
 

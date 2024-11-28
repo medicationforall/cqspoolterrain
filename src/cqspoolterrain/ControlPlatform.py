@@ -13,16 +13,16 @@
 # limitations under the License.
 
 import cadquery as cq
-from cqindustry import Platform
+from cqindustry.chip import Platform
 from cadqueryhelper import Base
 from . import SteelFrame
 
 class ControlPlatform(Base):
     def __init__(self):
         super().__init__()
-        self.length = 150
-        self.width = 75
-        self.height = 70
+        self.length:float = 150
+        self.width:float = 75
+        self.height:float = 70
         
         # platform blueprint init
         self.platform_bp = Platform()
@@ -37,10 +37,10 @@ class ControlPlatform(Base):
         self.platform_bp.stripe_width = 5
         self.platform_bp.stripe_padding = .3
         
-        self.bp_frame = SteelFrame()
+        self.bp_frame:SteelFrame = SteelFrame()
 
         # solids
-        self.platform = None
+        self.platform:cq.Workplane|None = None
         
     def make(self, parent=None):
         super().make(parent)
@@ -60,7 +60,7 @@ class ControlPlatform(Base):
         z_translate = (self.height/2)+(self.platform_bp.height/2)
         scene = (
             cq.Workplane("XY")
-            .union(platform.translate((0,0,(self.height/2)+z_translate)))
+            .union(platform.translate((0,0,z_translate)))
             .union(frame)
         )
         return scene

@@ -18,26 +18,26 @@ from cadqueryhelper import Base
 class Spool(Base):
     def __init__(
             self,
-            height = 60,
-            radius = 80,
-            cut_radius = 30,
-            wall_width = 3,
-            internal_wall_width = 3,
-            internal_z_translate = 0
+            height:float = 60,
+            radius:float = 80,
+            cut_radius:float = 30,
+            wall_width:float = 3,
+            internal_wall_width:float = 3,
+            internal_z_translate:float = 0
         ):
         super().__init__()
         #parameters
-        self.height = height
-        self.radius = radius
-        self.cut_radius = cut_radius
-        self.wall_width = wall_width
-        self.internal_wall_width = internal_wall_width
-        self.internal_z_translate = internal_z_translate
+        self.height:float = height
+        self.radius:float = radius
+        self.cut_radius:float = cut_radius
+        self.wall_width:float = wall_width
+        self.internal_wall_width:float = internal_wall_width
+        self.internal_z_translate:float = internal_z_translate
         
         #shapes
-        self.outline = None
-        self.cut_hole = None
-        self.cut_wall = None
+        self.outline:cq.Workplane|None = None
+        self.cut_hole:cq.Workplane|None = None
+        self.cut_wall:cq.Workplane|None = None
         
     def __make_outline(self):
         self.outline = (
@@ -84,29 +84,45 @@ class Spool(Base):
         
     def build(self):
         super().build()
-        scene = (
-            cq.Workplane("XY")
-            .union(self.outline)
-            .cut(self.cut_hole)
-            .cut(self.cut_wall)
-            .cut(self.cut_wall.translate((
-                0,
-                0,
-                self.internal_z_translate
-            )))        
-        )
+        scene = (cq.Workplane("XY"))
+
+        if self.outline:
+            scene = scene.union(self.outline)
+
+        if self.cut_hole:
+            scene = scene.cut(self.cut_hole)
+
+        if self.cut_wall:
+            scene = (
+                scene
+                .cut(self.cut_wall)
+                .cut(self.cut_wall.translate((
+                    0,
+                    0,
+                    self.internal_z_translate
+                )))  
+            )
+
         return scene
     
     def build_no_center(self, ):
         super().build()
         scene = (
             cq.Workplane("XY")
-            .union(self.outline)
-            .cut(self.cut_wall)
-            .cut(self.cut_wall.translate((
-                0,
-                0,
-                self.internal_z_translate
-            )))            
+            .union(self.outline)        
         )
+
+        if self.outline:
+            scene = scene.union(self.outline)
+
+        if self.cut_wall:
+            scene = (
+                scene
+                .cut(self.cut_wall)
+                .cut(self.cut_wall.translate((
+                    0,
+                    0,
+                    self.internal_z_translate
+                )))  
+            )
         return scene

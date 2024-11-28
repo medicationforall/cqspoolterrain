@@ -40,10 +40,10 @@ class SpoolCladding(Base):
         self.clad_inset = clad_inset
         
         # parts 
-        self.cladding = None
+        self.cladding:cq.Workplane|None = None
         
-    def _make_clad(self, loc):
-        length = self.parent.height - self.parent.wall_width*2
+    def _make_clad(self, loc:cq.Location)->cq.Shape:
+        length = self.parent.height - self.parent.wall_width*2 #type:ignore
         width = self.clad_width
         height = self.clad_height
         clad = (
@@ -51,13 +51,13 @@ class SpoolCladding(Base):
             .rotate((0,1,0),(0,0,0), 90)
             .translate((-1*(height/2)-self.clad_inset,0,0))
         )
-        return clad.val().located(loc)
+        return clad.val().located(loc) #type:ignore
     
     def __make_cladding(self):
         cladding_arc =(
             cq.Workplane("XY")
             .polarArray(
-                radius  = self.parent.radius, 
+                radius  = self.parent.radius, #type:ignore
                 startAngle  = self.start_angle, 
                 angle  = self.end_angle, 
                 count  = self.count,
@@ -74,7 +74,11 @@ class SpoolCladding(Base):
         self.__make_cladding()
 
         
-        
-    def build(self):
+    def build(self) -> cq.Workplane:
         super().build()
-        return self.cladding
+        scene = cq.Workplane("XY")
+
+        if self.cladding:
+            scene = scene.union(self.cladding)
+        
+        return scene

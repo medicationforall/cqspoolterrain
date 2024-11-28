@@ -1,8 +1,6 @@
-from .industrialStairs import industrial_stairs
 from .Spool import Spool
 from .Cradle import Cradle
 
-from .Stairs import Stairs
 from .StairLift import StairLift
 
 from .SteelFrame import SteelFrame

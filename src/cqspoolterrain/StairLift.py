@@ -14,7 +14,7 @@
 
 import cadquery as cq
 import math
-from . import Stairs
+from cqterrain.stairs import IndustrialStairs as Stairs
 from cqterrain import tile
 from cadqueryhelper import Base, wave
 
@@ -77,8 +77,8 @@ class StairLift(Base):
     
     def _make_floor_tiles(self, length, width, tile_size, padding = 2):
         floor_tile = self._make_tile(tile_size)
-        def add_tile(loc):
-            return floor_tile.val().located(loc)
+        def add_tile(loc:cq.Location)->cq.Shape:
+            return floor_tile.val().located(loc)#type:ignore
         
         padded_tile_size = tile_size+2
         x_count = math.floor((length) / padded_tile_size)
@@ -244,16 +244,35 @@ class StairLift(Base):
         
     def build(self):
         super().build()
-        self.stairs = self.bp_stairs.build()
         
-        scene = (
-            cq.Workplane("XY")
-            .union(self.walkway.translate((0,self.width/4,0)))
-            .union(self.overlook.translate((-self.length/4,-self.width/4,0)))
-            .union(self.stairs.translate((self.bp_stairs.length/2,-1*(self.bp_stairs.width/2),0)))
-            .cut(self.wall_cut)
-        )
         
+        scene = cq.Workplane("XY")
+
+        if self.walkway:
+            scene = (
+                scene
+                .union(self.walkway.translate((0,self.width/4,0)))
+            )
+
+        if self.overlook:
+            scene = (
+                scene
+                .union(self.overlook.translate((-self.length/4,-self.width/4,0)))
+            )
+
+        if self.bp_stairs:
+            self.stairs = self.bp_stairs.build()
+            scene = (
+                scene
+                .union(self.stairs.translate((self.bp_stairs.length/2,-1*(self.bp_stairs.width/2),0)))
+            )
+
+        if self.wall_cut:
+            scene = (
+                scene
+                .cut(self.wall_cut)
+            )
+
         panel_height = self._calculate_panel_height()
         wave_panel_x = self.wave_function(
             length = self.width - self.face_cut_padding*2,
@@ -264,7 +283,7 @@ class StairLift(Base):
         ).rotate((1,0,0),(0,0,0),180).rotate((0,0,1),(0,0,0),90)
         
         side_cut_face_x_translate = self.length/2 - self.face_cut_width
-        side_cut_face_y_translate = self.face_cut_padding/2
+        #side_cut_face_y_translate = self.face_cut_padding/2
         
         scene = scene.add(wave_panel_x.translate((
             -side_cut_face_x_translate-1,

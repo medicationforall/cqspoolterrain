@@ -20,4 +20,4 @@ bp_control.make()
 control_platform = bp_control.build()
 
 #show_object(control_platform)
-cq.exporters.export(control_platform,"stl/controlPlatformAlt.stl")
+cq.exporters.export(control_platform,"stl/control_Platform_Alt.stl")

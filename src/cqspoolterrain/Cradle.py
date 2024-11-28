@@ -13,32 +13,32 @@
 # limitations under the License.
 
 import cadquery as cq
-from . import pipe
+from cqterrain import pipe
 from cadqueryhelper import Base
 
 class Cradle(Base):
     def __init__(
             self, 
-            length = 150,
-            width = 75,
-            height = 60,
-            angle = 45
+            length:float = 150,
+            width:float = 75,
+            height:float = 60,
+            angle:float = 45
         ):
         super().__init__()
         #parameters
-        self.length = length
-        self.width = width
-        self.height = height
-        self.angle = angle
-        self.spool_padding = 2
+        self.length:float = length
+        self.width:float = width
+        self.height:float = height
+        self.angle:float = angle
+        self.spool_padding:float = 2
         
-        self.cut_side_width = 3
-        self.cut_side_padding = 3
+        self.cut_side_width:float = 3
+        self.cut_side_padding:float = 3
         
         #shapes
-        self.cradle = None
-        self.cut_side = None
-        self.power_line = None
+        self.cradle:cq.Workplane|None = None
+        self.cut_side:cq.Workplane|None = None
+        self.power_line:cq.Workplane|None = None
         
     def __make_cradle(self):
         cradle = (
@@ -85,18 +85,23 @@ class Cradle(Base):
         super().build()
         #log(self.cut_side)
         cut_y_translate = self.width/2 - self.cut_side_width/2
-        scene = (
-            cq.Workplane("XY")#.box(10,10,10)
-            .union(self.cradle.translate((0,0,self.height/2))) 
-            .cut(self.cut_side.translate((0,cut_y_translate,self.height/2)))
-            .cut(self.cut_side.translate((0,-1*(cut_y_translate),self.height/2)))
-        )
+        scene = cq.Workplane("XY")
+
+        if self.cradle and self.cut_side:
+            scene = (
+                scene
+                .union(self.cradle.translate((0,0,self.height/2))) 
+                .cut(self.cut_side.translate((0,cut_y_translate,self.height/2)))
+                .cut(self.cut_side.translate((0,-1*(cut_y_translate),self.height/2)))
+            )
         
-        scene = (
-            scene
-            .union(self.power_line.translate((self.length/4,0,0)))
-            .union(self.power_line.translate((-1*(self.length/4),0,0)))
-        )
+        if self.power_line:
+            scene = (
+                scene
+                .union(self.power_line.translate((self.length/4,0,0)))
+                .union(self.power_line.translate((-1*(self.length/4),0,0)))
+            )
+            
         if self.parent:
             cut_spool = (
                 self.parent.build_no_center()

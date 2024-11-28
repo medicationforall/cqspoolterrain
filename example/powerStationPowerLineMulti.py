@@ -1,9 +1,9 @@
 import cadquery as cq
-from cqindustry import Walkway
+from cqterrain.walkway import Walkway
+from cqterrain.pipe import straight as power_line_straight
 from cqspoolterrain import ( 
     Spool, 
     Cradle, 
-    power_line_straight, 
     PowerStation,
     SpoolCladdingGreebledUnique
 )
@@ -59,4 +59,4 @@ combined = (
 )
 
 #show_object(combined)
-cq.exporters.export(combined,"combined_power_station.stl")
+cq.exporters.export(combined,"stl/power_station_combined.stl")

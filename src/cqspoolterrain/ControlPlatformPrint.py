@@ -13,24 +13,24 @@
 # limitations under the License.
 
 import cadquery as cq
-from cqindustry import Platform
+from cqindustry.chip import Platform
 from cadqueryhelper import Base
 from . import SteelFrame
 
 class ControlPlatformPrint(Base):
     def __init__(self):
         super().__init__()
-        self.length = 150
-        self.width = 75
-        self.height = 70
+        self.length:float = 150
+        self.width:float = 75
+        self.height:float = 70
         
-        self.segment_width = 75
-        self.segment_length = 75
-        self.y_width = 5
-        self.y_height = 10
+        self.segment_width:float = 75
+        self.segment_length:float = 75
+        self.y_width:float = 5
+        self.y_height:float = 10
         
         # platform blueprint init
-        self.platform_bp = Platform()
+        self.platform_bp:Platform = Platform()
         self.platform_bp.width = self.width
         self.platform_bp.height = 5
         self.platform_bp.render_center_cut = False
@@ -42,15 +42,15 @@ class ControlPlatformPrint(Base):
         self.platform_bp.stripe_width = 5
         self.platform_bp.stripe_padding = .3
         
-        self.bp_frame = SteelFrame()
-        self.bp_frame_insert = SteelFrame()
+        self.bp_frame:SteelFrame = SteelFrame()
+        self.bp_frame_insert:SteelFrame = SteelFrame()
         
-        self.frame_insert_height = 1
-        self.frame_insert_height_margin = 1
-        self.frame_insert_margin = 0.4
+        self.frame_insert_height:float = 1
+        self.frame_insert_height_margin:float = 1
+        self.frame_insert_margin:float = 0.4
 
         # solids
-        self.platform = None
+        self.platform:cq.Workplane|None = None
         
     def make(self, parent=None):
         super().make(parent)

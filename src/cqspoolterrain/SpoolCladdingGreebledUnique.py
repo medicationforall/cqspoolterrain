@@ -20,8 +20,8 @@ from cadqueryhelper import irregular_grid
 class SpoolCladdingGreebledUnique(SpoolCladding):
     def __init__(self):
         super().__init__()
-        self.seed = "test4"
-        self.panel_count = 0
+        self.seed:str = "test4"
+        self.panel_count:int = 0
 
     def make(self, parent=None):
         super().make(parent)
@@ -46,8 +46,8 @@ class SpoolCladdingGreebledUnique(SpoolCladding):
         )
         return i_grid.translate((0,0,-1*(height/2)))
     
-    def _make_clad(self, loc):
-        length = self.parent.height - self.parent.wall_width*2
+    def _make_clad(self, loc:cq.Location):
+        length = self.parent.height - self.parent.wall_width*2 #type:ignore
         width = self.clad_width
         height = self.clad_height
 
@@ -60,4 +60,4 @@ class SpoolCladdingGreebledUnique(SpoolCladding):
             .translate((-1*(height/2)-self.clad_inset,0,0))
         )
         
-        return clad.val().located(loc)
+        return clad.val().located(loc) #type:ignore

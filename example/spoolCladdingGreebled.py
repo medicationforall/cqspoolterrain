@@ -21,4 +21,4 @@ scene = (
     .add(cladding)
 )
 
-cq.exporters.export(scene,"stl/spoolCladdingGreebled.stl")
+cq.exporters.export(scene,"stl/spool_Cladding_Greebled.stl")

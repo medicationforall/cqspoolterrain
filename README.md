@@ -4,9 +4,6 @@ python Library for making parametric Spool terrain designed for 3d printing.
 
 ![Station Mockup](./documentation/image/36.png)<br />
 
-![Pipe Mockup](./documentation/image/pipe/15.png)
-
-
 ### Example Usage
 
 ``` python

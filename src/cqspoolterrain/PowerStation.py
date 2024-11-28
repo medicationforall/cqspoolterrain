@@ -15,7 +15,7 @@
 import cadquery as cq
 from . import Spool, Cradle, StairLift, ControlPlatform, SpoolCladding
 from cadqueryhelper import Base
-from cqindustry import Walkway
+from cqterrain.walkway import Walkway
 from cqterrain import Ladder
 
 
@@ -23,38 +23,38 @@ class PowerStation(Base):
     def __init__(self):
         super().__init__()
         #parameters
-        self.p_spool = {}
+        self.p_spool:dict = {}
         self.p_spool['height'] = 60
         self.p_spool['radius'] = 97.5
         self.p_spool['wall_width'] =4
         self.p_spool['cut_radius'] = 36.5
         
-        self.p_cradle = {}
+        self.p_cradle:dict = {}
         self.p_cradle['height'] = self.p_spool['radius'] - self.p_spool['cut_radius']+2
         self.p_cradle['angle'] = 45
         
-        self.p_stairs = {}
-        self.ladder_raise = 25
-        self.ladder_increase = 10
-        self.render_stairs = True
-        self.render_control = True
-        self.render_spool = True
-        self.render_walkway = True
-        self.render_cradle = True
-        self.render_cladding = True
-        self.render_ladder = True
+        self.p_stairs:dict = {}
+        self.ladder_raise:float = 25
+        self.ladder_increase:float = 10
+        self.render_stairs:bool = True
+        self.render_control:bool = True
+        self.render_spool:bool = True
+        self.render_walkway:bool = True
+        self.render_cradle:bool = True
+        self.render_cladding:bool = True
+        self.render_ladder:bool = True
 
         #self.p_cladding = {}
         
         # blueprints
-        self.bp_spool = Spool(**self.p_spool)
-        self.bp_cradle = Cradle(**self.p_cradle)
-        self.bp_walk = Walkway()
+        self.bp_spool:Spool = Spool(**self.p_spool)
+        self.bp_cradle:Cradle = Cradle(**self.p_cradle)
+        self.bp_walk:Walkway = Walkway()
 
-        self.bp_stairs = StairLift(**self.p_stairs)
-        self.bp_control = ControlPlatform()
-        self.bp_cladding = SpoolCladding()
-        self.bp_ladder = Ladder()
+        self.bp_stairs:StairLift = StairLift(**self.p_stairs)
+        self.bp_control:ControlPlatform = ControlPlatform()
+        self.bp_cladding:SpoolCladding = SpoolCladding()
+        self.bp_ladder:Ladder = Ladder()
         self.bp_ladder.height=self.bp_spool.radius + self.ladder_increase
         
     def make(self, parent = None):
