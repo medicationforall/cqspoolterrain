@@ -6,6 +6,7 @@
 * Move pipe code from cqspoolterrain into cqterrain
 * Move IndustrialStairs code from cqspoolterrain into cqterrain
 * Added exampe_runner.py
+* Added type annotions
 
 ## 1.3.0
 * Added SpoolLogoStack and example.
