@@ -21,4 +21,4 @@ control_platform = bp_control.build()
 
 #show_object(control_platform)
 
-cq.exporters.export(control_platform,"stl/controlPlatform.stl")
+cq.exporters.export(control_platform,"stl/control_platform.stl")

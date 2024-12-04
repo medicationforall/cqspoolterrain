@@ -7,7 +7,7 @@ bp_spool_stack.font_width = 55
 bp_spool_stack.font_center_offset = -10
 bp_spool_stack.logo_text = "MINI FOR ALL"
 bp_spool_stack.word_offset = [0,3,4]
-bp_spool_stack.render_spool = False
+bp_spool_stack.render_spool = True
 bp_spool_stack.make()
 spool_logo_ex = bp_spool_stack.build()
 

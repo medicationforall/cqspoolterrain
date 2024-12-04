@@ -1,6 +1,15 @@
 # CQSpoolTerrain changelog
 
 ## Main wip
+## 2.1.0
+* Prep for moving spool code to cqterrain
+* Upped cqindustry version dependency 2.1.0
+* Updated README.md
+* Added spool documentation
+* Updated spool examples
+* Organized documentation pictures 
+
+
 
 ## 2.0.0
 * Move pipe code from cqspoolterrain into cqterrain
