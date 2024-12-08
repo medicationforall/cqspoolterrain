@@ -1,5 +1,7 @@
 # PowerStation Documentation
 
+![Station Mockup](./image/powerstation/36.png)
+
 ## ControlPlatform
 Builder class for making a control platform. Inherits from Base.
 The generated shape is one part.

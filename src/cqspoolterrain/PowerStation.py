@@ -128,6 +128,57 @@ class PowerStation(Base):
         
         return building
     
+    def build_assembly(self) -> cq.Assembly:
+        super().build()
+        assembly = cq.Assembly()
+
+        if self.render_spool:
+            spool = (
+                self.bp_spool.build()
+                .rotate((1,0,0),(0,0,0),90)
+                .translate((0,0,self.bp_spool.radius))
+            ).translate((0,0,2))
+            assembly.add(spool, color=cq.Color(0,0,1), name="spool")
+
+        if self.render_cladding:
+            cladding = (
+                self.bp_cladding.build()
+                .rotate((1,0,0),(0,0,0),90)
+                .translate((0,0,self.bp_spool.radius))
+            ).translate((0,0,2))
+            assembly.add(cladding, color=cq.Color(0,1,0), name="cladding")
+
+        if self.render_ladder:
+            ladder = self.bp_ladder.build()
+            ladder_x_translate = self.bp_spool.cut_radius + self.bp_ladder.length/2
+            ladder_y_translate = self.bp_spool.height/2 + self.bp_ladder.width/2
+            ladder_z_translate = self.bp_spool.radius+1 + self.ladder_raise
+            ladder1 = ladder.translate((ladder_x_translate,ladder_y_translate,ladder_z_translate))
+            ladder2 = ladder.translate((-ladder_x_translate,-ladder_y_translate,ladder_z_translate))
+
+            assembly.add(ladder1, color=cq.Color(1,0,0), name="ladder_one")
+            assembly.add(ladder2, color=cq.Color(1,0,0), name="ladder_two")
+
+        if self.render_cradle:
+            cradle = self.bp_cradle.build().translate((0,0,self.bp_cradle.height/2))
+            assembly.add(cradle, color=cq.Color(1,1,0), name="cradle")
+
+        if self.render_stairs:
+            stairs = self.bp_stairs.build().translate((0,-75,self.bp_stairs.height/2))
+            assembly.add(stairs, color=cq.Color(1,0,1), name="stairs")
+
+        if self.render_control:
+            controlPlatform = self.bp_control.build().translate((0,75,self.bp_control.height/2))
+            assembly.add(controlPlatform, color=cq.Color(0,1,1), name="controlPlatform")
+
+        if self.render_walkway:
+            walk_z_translate = (self.bp_walk.height /2)+self.bp_cradle.height +10
+            walkway = self.bp_walk.build().rotate((0,0,1),(0,0,0), 90).translate((0,0,walk_z_translate))
+            assembly.add(walkway, color=cq.Color(1,1,1), name="walkway")
+
+        return assembly
+
+    
     def build_cladding(self):
         building = cq.Workplane("XY")
         if self.render_cladding:

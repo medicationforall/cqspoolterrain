@@ -10,6 +10,7 @@
 * Organized documentation pictures 
 * Added powerstation documentation
 * Added spool cladding unique example
+* Added build_assembly function to PowerStation.py
 
 
 
