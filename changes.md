@@ -5,6 +5,8 @@
 ## 2.3.0
 * Fix generated stl name to lowercase consistency.
   * Becomes a problem because linux cares and windows doesn't.
+* Added spoolCladdingGreebledUnique to example_runner
+* Added gltf assembly example
 
 ## 2.2.0
 * Added powerstation documentation

@@ -279,11 +279,46 @@ show_object(power)
 
 ![](./image/powerstation/02.png)
 
+### build_assembly lifecycle
+To generate the collection of parts as an assembly use the build_assembly method.
+
+``` python
+import cadquery as cq
+from cqspoolterrain import PowerStation, SpoolCladdingGreebledUnique
+
+bp_power = PowerStation()
+bp_power.bp_stairs.overlook_tile_size = 10
+bp_power.bp_stairs.bp_stairs.stair_chamfer = None
+
+
+bp_power.bp_cladding = SpoolCladdingGreebledUnique()
+bp_power.bp_cladding.seed="uniquePanels"
+
+bp_power.render_spool = True
+bp_power.render_cladding = True
+bp_power.render_cradle = True
+bp_power.render_stairs = True
+bp_power.render_control = True
+bp_power.render_walkway = True
+bp_power.render_ladder = True
+
+bp_power.make()
+power = bp_power.build_assembly()
+
+show_object(power)
+
+power.save("gltf/power_assembly.gltf")
+```
+
+![](./image/powerstation/40.png)
+
 * [source](../src/cqspoolterrain/PowerStation.py)
 * [example](../example/powerStationPlain.py)
 * [example unique](../example/powerStationGreebledUniquePanels.py)
+* [example assembly](../example/powerStationGreebledUniquePanelsAssembly.py)
 * [stl](../stl/powerStation.stl)
 * [stl unique](../stl/powerStation_seed_uniquePanels.stl)
+* [stl assembly](../gltf/power_assembly.gltf)
 
 ---
 
