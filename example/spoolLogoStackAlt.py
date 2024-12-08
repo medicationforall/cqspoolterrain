@@ -12,4 +12,4 @@ bp_spool_stack.make()
 spool_logo_ex = bp_spool_stack.build()
 
 #show_object(spool_logo_ex)
-cq.exporters.export(spool_logo_ex,"stl/spool_Logo_alt_2.stl")
+cq.exporters.export(spool_logo_ex,"stl/spool_logo_alt_2.stl")
