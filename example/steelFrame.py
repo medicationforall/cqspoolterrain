@@ -16,4 +16,4 @@ bp_frame.make()
 ex_frame = bp_frame.build()
 
 #show_object(ex_frame)
-cq.exporters.export(ex_frame,"stl/steel_Frame.stl")
+cq.exporters.export(ex_frame,"stl/steel_frame.stl")

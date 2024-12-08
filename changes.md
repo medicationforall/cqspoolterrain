@@ -2,6 +2,10 @@
 
 ## Main wip
 
+## 2.3.0
+* Fix generated stl name to lowercase consistency.
+  * Becomes a problem because linux cares and windows doesn't.
+
 ## 2.2.0
 * Added powerstation documentation
 * Added spool cladding unique example

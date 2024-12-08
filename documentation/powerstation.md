@@ -75,7 +75,7 @@ show_object(control_platform)
 * [example](../example/controlPlatform.py)
 * [example alternate](../example/controlPlatformAlt.py)
 * [stl](../stl/control_platform.stl)
-* [stl alternate](../stl/control_Platform_Alt.stl)
+* [stl alternate](../stl/control_platform_alt.stl)
 
 ---
 
