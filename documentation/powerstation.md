@@ -280,7 +280,7 @@ show_object(power)
 ![](./image/powerstation/02.png)
 
 * [source](../src/cqspoolterrain/PowerStation.py)
-* [example](../example/powerstationPlain.py)
+* [example](../example/powerStationPlain.py)
 * [example unique](../example/powerStationGreebledUniquePanels.py)
 * [stl](../stl/powerStation.stl)
 * [stl unique](../stl/powerStation_seed_uniquePanels.stl)
