@@ -18,26 +18,26 @@ from cadqueryhelper import Base
 class SpoolCladding(Base):
     def __init__(
             self,
-            start_angle = 0,
-            end_angle = 360,
-            rotate_solid = True,
-            count = 17,
-            clad_width = 33,
-            clad_height = 5,
-            clad_inset = 5
+            start_angle:float = 0,
+            end_angle:float = 360,
+            rotate_solid:bool = True,
+            count:int = 17,
+            clad_width:float = 33,
+            clad_height:float = 5,
+            clad_inset:float = 5
         ):
         super().__init__()
         
         #arc parameters
-        self.start_angle = start_angle
-        self.end_angle = end_angle
-        self.rotate_solid = rotate_solid
-        self.count = count
+        self.start_angle:float = start_angle
+        self.end_angle:float = end_angle
+        self.rotate_solid:bool = rotate_solid
+        self.count:int = count
         
         #clad
-        self.clad_height = clad_height
-        self.clad_width = clad_width
-        self.clad_inset = clad_inset
+        self.clad_height:float = clad_height
+        self.clad_width:float = clad_width
+        self.clad_inset:float = clad_inset
         
         # parts 
         self.cladding:cq.Workplane|None = None

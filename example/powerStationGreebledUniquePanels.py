@@ -3,7 +3,7 @@ from cqspoolterrain import PowerStation, SpoolCladdingGreebledUnique
 
 bp_power = PowerStation()
 bp_power.bp_stairs.overlook_tile_size = 10
-bp_power.bp_stairs.stair_chamfer = None
+bp_power.bp_stairs.bp_stairs.stair_chamfer = None
 
 
 bp_power.bp_cladding = SpoolCladdingGreebledUnique()

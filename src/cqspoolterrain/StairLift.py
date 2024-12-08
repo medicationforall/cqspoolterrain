@@ -21,32 +21,35 @@ from cadqueryhelper import Base, wave
 class StairLift(Base):
     def __init__(
             self,
-            length = 150,
-            width = 75,
-            height = 75,
-            overlook_tile_size = 10,
-            walkway_tile_size = 27,
-            tile_height = 2,
-            stair_count = 9,
-            stair_chamfer = None
+            length:float = 150,
+            width:float = 75,
+            height:float = 75,
+            overlook_tile_size:float = 10,
+            walkway_tile_size:float = 27,
+            tile_height:float = 2,
+            stair_count:int = 9,
+            stair_chamfer:float|None = None
         ):
         super().__init__()
         # parameters
-        self.length = length
-        self.width = width
-        self.height = height
+        self.length:float = length
+        self.width:float = width
+        self.height:float = height
         
-        self.overlook_tile_size = overlook_tile_size
-        self.walkway_tile_size = walkway_tile_size
-        self.tile_height = tile_height
+        self.overlook_tile_size:float = overlook_tile_size
+        self.walkway_tile_size:float = walkway_tile_size
+        self.tile_height:float = tile_height
         
-        self.face_cut_width = 4
-        self.face_cut_padding = 3
+        self.face_cut_width:float = 4
+        self.face_cut_padding:float = 3
         self.wave_function = wave.square #wave.triangle wave.sine
-        self.wave_segment_length = 5
+        self.wave_segment_length:float = 5
         
         # Blueprints
-        self.bp_stairs = Stairs(stair_count=stair_count, stair_chamfer=stair_chamfer)
+        self.bp_stairs = Stairs(
+            stair_count=stair_count, 
+            stair_chamfer=stair_chamfer
+        )
         
         #parts
         self.stairs = None
@@ -55,8 +58,8 @@ class StairLift(Base):
         self.wall_cut = None
         
     def __make_stairs(self):
-        stair_length = self.length/2
-        stair_width = self.width/2
+        stair_length:float = self.length/2
+        stair_width:float = self.width/2
         
         self.bp_stairs.length = stair_length
         self.bp_stairs.width = stair_width

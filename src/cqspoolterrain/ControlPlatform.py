@@ -25,7 +25,7 @@ class ControlPlatform(Base):
         self.height:float = 70
         
         # platform blueprint init
-        self.platform_bp = Platform()
+        self.platform_bp:Platform = Platform()
         self.platform_bp.width = self.width
         self.platform_bp.height = 5
         self.platform_bp.render_center_cut = False

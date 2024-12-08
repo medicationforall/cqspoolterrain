@@ -21,4 +21,6 @@ scene = (
     .add(cladding)
 )
 
-cq.exporters.export(scene,"stl/spool_Cladding.stl")
+#show_object(scene)
+
+cq.exporters.export(scene,"stl/spool_cladding.stl")

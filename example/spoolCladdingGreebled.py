@@ -12,6 +12,7 @@ ex_spool = bp_spool.build()
 
 # --- Cladding
 bp_cladding = SpoolCladdingGreebled()
+bp_cladding.seed = "test4"
 bp_cladding.make(bp_spool)
 cladding = bp_cladding.build()
 
@@ -21,4 +22,6 @@ scene = (
     .add(cladding)
 )
 
-cq.exporters.export(scene,"stl/spool_Cladding_Greebled.stl")
+#show_object(scene)
+
+cq.exporters.export(scene,"stl/spool_cladding_greebled.stl")

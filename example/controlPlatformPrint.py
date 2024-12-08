@@ -23,14 +23,18 @@ bp_p.stripe_padding = .3
 
 bp_control.make()
 
-control_platform = bp_control.build_print_patform()
-#show_object(control_platform.translate((0,0,3)))
-cq.exporters.export(control_platform,"stl/Platform.stl")
+control_platform = bp_control.build()
+#show_object(control_platform)
+cq.exporters.export(control_platform,"stl/control_platform_print.stl")
 
+platform = bp_control.build_print_patform()
+#show_object(platform)
+cq.exporters.export(platform,"stl/control_platform_platform.stl")
 
 frame = bp_control.build_print_frame()
 #show_object(frame)
+cq.exporters.export(frame,"stl/control_platform_frame.stl")
 
 frame_single = bp_control.build_print_frame_single()
 #show_object(frame_single)
-cq.exporters.export(frame_single,"stl/platformFrameSingle.stl")
+cq.exporters.export(frame_single,"stl/control_platform_frame_single.stl")

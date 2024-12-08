@@ -8,6 +8,8 @@
 * Added spool documentation
 * Updated spool examples
 * Organized documentation pictures 
+* Added powerstation documentation
+* Added spool cladding unique example
 
 
 
