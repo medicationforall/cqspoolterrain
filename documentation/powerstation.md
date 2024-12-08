@@ -450,7 +450,7 @@ show_object(scene)
 
 * [source](../src/cqspoolterrain/SpoolCladdingGreebledUnique.py)
 * [example](../example/spoolCladdingGreebledUnique.py)
-* [stl](../stl/spool_cladding_greebled_unique.stl)
+* [stl](../stl/spool_cladding_greebled_panels.stl)
 
 ---
 
