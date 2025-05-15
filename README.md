@@ -1,6 +1,13 @@
 # cqspoolterrain
 python Library for making parametric Spool terrain designed for 3d printing.
 
+---
+
+## ARCHIVE
+This repo is an archive, active development has been moved to [cqindustry](https://github.com/medicationforall/cqindustry)
+
+---
+
 
 ![Station Mockup](./documentation/image/cover.png)<br />
 
